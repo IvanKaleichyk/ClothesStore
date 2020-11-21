@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@color/colorGrayLight"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/smallMargin"
+    android:paddingTop="@dimen/smallMargin"
+    android:paddingRight="@dimen/smallMargin"
+    android:paddingBottom="@dimen/smallMargin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/user_icon_96"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/text"
+        android:text="Ivan Koleychik"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="@dimen/smallTextSize"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"/>
+</LinearLayout>

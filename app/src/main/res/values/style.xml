@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="shadowBasic">
+        <item name="android:shadowColor">@color/colorShadow</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/basicTextSize</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="textTitle" parent="text">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="basicButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:minWidth">@dimen/minWithBtn</item>
+        <item name="android:maxWidth">@dimen/maxWithBtn</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:background">@drawable/btn_bg</item>
+    </style>
+
+
+    <style name="editText">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+    </style>
+
+    <style name="EditTextSearch" parent="editText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:hint">@string/search...</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="checkBox">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:paddingBottom">@dimen/pagePaddingTop</item>
+        <item name="android:paddingTop">@dimen/pagePaddingTop</item>
+        <item name="android:paddingEnd">@dimen/pagePaddingStart</item>
+        <item name="android:paddingStart">@dimen/pagePaddingStart</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>

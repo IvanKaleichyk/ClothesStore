@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text"
+    android:layout_gravity="center"
+    android:paddingTop="@dimen/extraSmallPadding"
+    android:paddingBottom="@dimen/extraSmallPadding"
+    android:paddingStart="@dimen/smallPadding"
+    android:paddingEnd="@dimen/smallPadding"
+    style="@style/text"
+    android:textSize="@dimen/extraSmallTextSize"
+    android:fontFamily="@font/roboto_regular"
+    android:textColor="@color/colorWhite"
+    />

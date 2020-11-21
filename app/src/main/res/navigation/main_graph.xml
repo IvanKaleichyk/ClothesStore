@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/navDrawerFragment">
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/action_startFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.SearchResultFragment"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_resoult" />
+    <fragment
+        android:id="@+id/basketFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.BasketFragment"
+        android:label="fragment_basket"
+        tools:layout="@layout/fragment_basket" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/navDrawerFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.NavDrawerFragment"
+        android:label="NavDrawerFragment" />
+</navigation>

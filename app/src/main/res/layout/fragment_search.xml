@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.SearchFragment">
+
+    <TextView
+        android:id="@+id/titleSelectCategory"
+        style="@style/textTitle"
+        android:layout_marginStart="@dimen/smallMargin"
+        android:layout_marginTop="@dimen/basicMargin"
+        android:text="@string/selectCategory"
+        android:textSize="@dimen/smallTextSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/basicMargin"
+        android:layout_marginEnd="@dimen/smallMargin"
+        android:background="@drawable/bg_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/titlePrice"
+        style="@style/textTitle"
+        android:layout_marginTop="@dimen/basicMargin"
+        android:text="@string/price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleSelectCategory" />
+
+    <LinearLayout
+        android:id="@+id/containerPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titlePrice">
+
+        <TextView
+            android:id="@+id/minPriceText"
+            style="@style/text"
+            android:layout_marginEnd="@dimen/extraSmallMargin"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/min"
+            android:textSize="@dimen/smallTextSize" />
+
+        <EditText
+            android:id="@+id/edtMinPrice"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edt_price"
+            android:gravity="center"
+            android:text="50"
+            android:inputType="number"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:padding="@dimen/extraSmallPadding" />
+
+        <TextView
+            style="@style/text"
+            android:layout_marginStart="@dimen/basicMargin"
+            android:layout_marginEnd="@dimen/basicMargin"
+            android:fontFamily="@font/roboto_medium"
+            android:maxLength="3"
+            android:text="-"
+            android:textSize="@dimen/smallTextSize" />
+
+        <TextView
+            android:id="@+id/maxPriceText"
+            style="@style/text"
+            android:layout_marginEnd="@dimen/extraSmallMargin"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/max"
+            android:textSize="@dimen/smallTextSize" />
+
+        <EditText
+            android:id="@+id/edtMaxPrice"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edt_price"
+            android:gravity="center"
+            android:text="1000"
+            android:inputType="number"
+            android:padding="@dimen/extraSmallPadding" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titleHistory"
+        style="@style/textTitle"
+        android:layout_marginTop="@dimen/basicMargin"
+        android:text="@string/history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/containerPrice" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/extraSmallMargin"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleHistory" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

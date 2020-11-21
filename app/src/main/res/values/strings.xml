@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Clothes Store</string>
+
+    <string name="footwear">Footwear</string>
+    <string name="outerwear">Outerwear</string>
+    <string name="pants">Pants</string>
+    <string name="accessories">Accessories</string>
+    <string name="sale">Sale</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="history">History</string>
+    <string name="search...">search...</string>
+    <string name="home">Home</string>
+    <string name="basket">Basket</string>
+    <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
+
+<!--  Bad Response  -->
+    <string name="error">Error</string>
+    <string name="error_404">Not found (404)</string>
+    <string name="error_400">Bad Request (400)</string>
+    <string name="error_403">forbidden (403)</string>
+    <string name="error_500">Internal Server Error (500)</string>
+    <string name="error_502">Bad Gateway (502)</string>
+    <string name="error_503">Service Unavailable (503)</string>
+    <string name="price">Price</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="selectCategory">Select Category</string>
+
+<!--  PRICE ERRORS  -->
+    <string name="errorMinMoreThanMax">The minimum price cannot exceed the maximum price</string>
+    <string name="tooBigMaxValue">Max price cannot be more then 1000$</string>
+    <string name="tooLitleMinPrice">Min price cannot be less than 50$</string>
+    <string name="valueCannnotBeEmpty">Value cannnot be empty</string>
+
+</resources>

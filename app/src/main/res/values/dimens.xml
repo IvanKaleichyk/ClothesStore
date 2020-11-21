@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="shadowSize">16dp</dimen>
+
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+
+    <!--  Text Size  -->
+    <dimen name="basicTextSize">24sp</dimen>
+    <dimen name="smallTextSize">20sp</dimen>
+    <dimen name="extraSmallTextSize">16sp</dimen>
+    <dimen name="bigTextSize">32sp</dimen>
+    <dimen name="extraBigTextSize">40sp</dimen>
+
+    <!--  Margin  -->
+    <dimen name="basicMargin">24dp</dimen>
+    <dimen name="smallMargin">20dp</dimen>
+    <dimen name="extraSmallMargin">16dp</dimen>
+    <dimen name="superSmallMargin">10dp</dimen>
+    <dimen name="bigMargin">32dp</dimen>
+    <dimen name="extraBigMargin">40dp</dimen>
+
+    <!-- Padding -->
+    <dimen name="basicPadding">10dp</dimen>
+    <dimen name="smallPadding">7dp</dimen>
+    <dimen name="extraSmallPadding">5dp</dimen>
+    <dimen name="superSmallPadding">3dp</dimen>
+    <dimen name="bigPadding">16dp</dimen>
+    <dimen name="extraBigPadding">20dp</dimen>
+
+    <!--  Radius  -->
+    <dimen name="basicRadius">30dp</dimen>
+    <dimen name="smallRadius">10dp</dimen>
+    <dimen name="checkBoxRadius">5dp</dimen>
+    <dimen name="btnBackRadius">5dp</dimen>
+
+    <!--  stroke  -->
+    <dimen name="stroke">2dp</dimen>
+
+    <!--  Button  -->
+    <dimen name="minWithBtn">200dp</dimen>
+    <dimen name="maxWithBtn">280dp</dimen>
+
+    <dimen name="pagePaddingTop">5dp</dimen>
+    <dimen name="pagePaddingStart">7dp</dimen>
+
+</resources>
