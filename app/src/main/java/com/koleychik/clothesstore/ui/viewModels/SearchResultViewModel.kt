@@ -2,19 +2,13 @@ package com.koleychik.clothesstore.ui.viewModels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.koleychik.clothesstore.models.categories.Category
+import androidx.paging.*
 import com.koleychik.clothesstore.repositories.NetworkRepository
+import com.koleychik.clothesstore.ui.adapters.paging.productPagingAdapter.ProductPagingSource
 import com.koleychik.clothesstore.ui.states.SearchResultState
-import com.koleychik.clothesstore.utils.errorResponse
-import com.koleychik.clothesstore.utils.generateProductModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchResultViewModel @Inject constructor() : ViewModel() {
-
-    val totalPages = MutableLiveData(10)
 
     @Inject
     lateinit var repository: NetworkRepository
@@ -23,25 +17,20 @@ class SearchResultViewModel @Inject constructor() : ViewModel() {
 
     val pageNow = MutableLiveData(1)
 
-    fun search(
-        category: Category,
+    fun products(
+        categoryId: Int,
+        per_pager: Int,
         optionsString: Map<String, String>,
-        optionsInt: Map<String, Int>
-    ) =
-        viewModelScope.launch {
-            val response = repository.search(optionsString, optionsInt)
-            if (response.isSuccessful) {
-                val list = response.body()
-                if (list == null || list.results.isEmpty()) {
-                    if (totalPages.value == 10 || totalPages.value == null) totalPages.value = list!!.total_pages
-                    SearchResultState.Showing(generateProductModel(
-                            list!!.results,
-                            category = category))
-                } else state.value = SearchResultState.Nothing
-            } else {
-                state.value = SearchResultState.Error(errorResponse(response.code()))
-            }
-        }
-
-
+        priceMin : Int,
+        priceMax: Int
+    ) = Pager(PagingConfig(per_pager)) {
+        ProductPagingSource(
+            repository,
+            categoryId,
+            optionsString,
+            per_pager,
+            priceMin,
+            priceMax
+        )
+    }.flow
 }

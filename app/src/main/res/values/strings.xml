@@ -15,7 +15,15 @@
     <string name="favorites">Favorites</string>
     <string name="settings">Settings</string>
 
-<!--  Bad Response  -->
+
+    <!--  Login  -->
+    <string name="welcomeText">Welcome to the clothing store,
+        you can find whatever you like here.
+        But you must remember that this
+        application only simulates the
+        operation of a real store.</string>
+
+    <!--  Bad Response  -->
     <string name="error">Error</string>
     <string name="error_404">Not found (404)</string>
     <string name="error_400">Bad Request (400)</string>
@@ -28,10 +36,45 @@
     <string name="max">Max</string>
     <string name="selectCategory">Select Category</string>
 
-<!--  PRICE ERRORS  -->
+    <!--  PRICE ERRORS  -->
     <string name="errorMinMoreThanMax">The minimum price cannot exceed the maximum price</string>
     <string name="tooBigMaxValue">Max price cannot be more then 1000$</string>
     <string name="tooLitleMinPrice">Min price cannot be less than 50$</string>
     <string name="valueCannnotBeEmpty">Value cannnot be empty</string>
+    <string name="errorInternetConnection">Error Internet Connection</string>
+    <string name="try_again">Try Again</string>
+    <string name="buy">Buy</string>
+    <string name="buyAll">Buy All</string>
+    <string name="yourBasketIsEmpty">Your basket is Empty!</string>
+    <string name="searchClothes">Search Clothes</string>
+    <string name="selectSize">Select Size</string>
+    <string name="addToBasket">Add To Basket</string>
+    <string name="support">Support</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email</string>
+    <string name="continue_main">Continue</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="repeatPassword">Repeat Password</string>
+    <string name="tooLongPassword">Password cannot be more than 10 characters!</string>
+    <string name="tooShortPassword">Password cannot be less than 5 characters!</string>
+    <string name="passwordContainsWrongCharacter">Password contains wrong character!</string>
+    <string name="emptyField">The field cannot be empty!</string>
+    <string name="emailField">The fields doesn\'t contains email!</string>
+    <string name="passwordNotMatch">Passwords do not match!</string>
+    <string name="wrongPassword">Wrong password</string>
+    <string name="forgotPassword">Forgot password</string>
+
+    <string name="verifyEmail">You must confirm your email!!!</string>
+    <string name="checkEmail">Check your email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="set_password">Set Password</string>
+    <string name="set_email">Set Email</string>
+    <string name="set_name">Set Name</string>
+    <string name="set">Set</string>
+    <string name="email_was_updated">Email was updated</string>
+    <string name="name_was_updated">Name was updated</string>
+    <string name="account">Account</string>
 
 </resources>

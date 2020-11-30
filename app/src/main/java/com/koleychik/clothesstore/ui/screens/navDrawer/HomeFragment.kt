@@ -5,34 +5,76 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.koleychik.clothesstore.R
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import com.koleychik.clothesstore.App
 import com.koleychik.clothesstore.databinding.FragmentHomeBinding
+import com.koleychik.clothesstore.ui.adapters.CategoryAdapter
+import com.koleychik.clothesstore.ui.states.HomeState
+import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+import com.koleychik.clothesstore.ui.viewModels.HomeViewModel
+import com.koleychik.clothesstore.utils.listCategory
+import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
 
-    private val tagTest = "tagTest"
+    private lateinit var viewModel : HomeViewModel
+
+    @Inject
+    lateinit var adapter : CategoryAdapter
+
+    @Inject
+    lateinit var viewModelFactory : MainViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater)
+        App.component.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
 
-        if (savedInstanceState != null){
-            binding.textText.text = savedInstanceState.getString(tagTest)
-        }
-
-        binding.testBtn.setOnClickListener {
-            binding.textText.text = "2"
-        }
+        subscribe()
+        createRv()
+        createSwipeToRefresh()
 
         return binding.root
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(tagTest, "2")
+    private fun subscribe(){
+        viewModel.state.observe(viewLifecycleOwner, {render(it)})
     }
+
+    private fun createRv(){
+        binding.rv.adapter = adapter
+    }
+
+    private fun render(state : HomeState){
+        loading.isVisible = state is HomeState.Loading
+        binding.rv.isVisible = state is HomeState.Show
+        binding.textError.isVisible = state is HomeState.Error
+        when(state){
+            is HomeState.Loading -> viewModel.getData(listCategory)
+            is HomeState.Refreshing -> viewModel.getData(listCategory)
+            is HomeState.Error -> {
+                binding.textError.setText(state.textRes)
+                binding.swipeToRefresh.isRefreshing = false
+            }
+            is HomeState.Show -> {
+                binding.swipeToRefresh.isRefreshing = false
+                adapter.submitList(state.lisCategory, state.mapListProducts)
+            }
+        }
+    }
+
+    private fun createSwipeToRefresh(){
+        binding.swipeToRefresh.setOnRefreshListener {
+            binding.swipeToRefresh.isRefreshing = true
+            viewModel.state.value = HomeState.Refreshing
+        }
+    }
+
 }

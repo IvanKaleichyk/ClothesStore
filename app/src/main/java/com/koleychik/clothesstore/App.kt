@@ -3,9 +3,7 @@ package com.koleychik.clothesstore
 import android.app.Application
 import com.koleychik.clothesstore.di.components.AppComponent
 import com.koleychik.clothesstore.di.components.DaggerAppComponent
-import com.koleychik.clothesstore.di.models.AppModule
-import com.koleychik.clothesstore.di.models.DatabaseModule
-import com.koleychik.clothesstore.di.models.NetworkModule
+import com.koleychik.clothesstore.di.modules.AppModule
 
 class App : Application() {
 

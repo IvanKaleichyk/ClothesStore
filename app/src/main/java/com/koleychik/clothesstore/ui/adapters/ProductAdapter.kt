@@ -1,21 +1,27 @@
 package com.koleychik.clothesstore.ui.adapters
 
 import android.graphics.Paint
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import coil.load
+import com.koleychik.clothesstore.App
 import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.databinding.ItemRvProductBinding
 import com.koleychik.clothesstore.models.ProductModel
+import com.koleychik.clothesstore.utils.ActiveModel
+import com.koleychik.clothesstore.utils.constants.ProductConstants
 import com.koleychik.clothesstore.utils.getCurrencyString
+import kotlinx.android.synthetic.main.item_rv_product.view.*
 import javax.inject.Inject
 
 
-class ProductAdapter @Inject constructor(): RecyclerView.Adapter<ProductAdapter.MainViewHolder>() {
+class ProductAdapter @Inject constructor(private val activeModel: ActiveModel) : RecyclerView.Adapter<ProductAdapter.MainViewHolder>() {
 
     private val sortedList: SortedList<ProductModel>
 
@@ -50,8 +56,7 @@ class ProductAdapter @Inject constructor(): RecyclerView.Adapter<ProductAdapter.
         val layoutInflater = LayoutInflater.from(parent.context)!!
 
         return MainViewHolder(
-            layoutInflater.inflate(R.layout.item_rv_product, parent, false),
-            ItemRvProductBinding.inflate(layoutInflater)
+            layoutInflater.inflate(R.layout.item_rv_product, parent, false)
         )
     }
 
@@ -61,21 +66,33 @@ class ProductAdapter @Inject constructor(): RecyclerView.Adapter<ProductAdapter.
 
     override fun getItemCount(): Int = sortedList.size()
 
-    class MainViewHolder(itemView: View, private val binding: ItemRvProductBinding) :
+    inner class MainViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
+
         fun bind(model: ProductModel) {
-            binding.description.text = model.photo.description
-            binding.fullPrice.text = getCurrencyString(model.price)
-            binding.img.load(model.photo.urls?.regular)
+            itemView.description.text = model.photo.description
+            itemView.fullPrice.text = getCurrencyString(model.price)
+            itemView.img.load(model.photo.urls?.regular)
             if (model.sale != null) {
-                binding.fullPrice.paintFlags =
-                    binding.fullPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                binding.salePrice.visibility = View.VISIBLE
-                binding.salePrice.text = getCurrencyString(model.sale!!)
+//              cross out
+                itemView.fullPrice.paintFlags =
+                    itemView.fullPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                itemView.salePrice.visibility = View.VISIBLE
+                itemView.salePrice.text = getCurrencyString(model.sale!!)
             } else {
-                binding.fullPrice.paintFlags = binding.fullPrice.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                binding.salePrice.visibility = View.GONE
+//              destroy  cross out
+                itemView.fullPrice.paintFlags =
+                    itemView.fullPrice.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                itemView.salePrice.visibility = View.GONE
+            }
+
+            itemView.setOnClickListener {
+                activeModel.model = model
+                val bundle = Bundle()
+                bundle.putBoolean(ProductConstants.comeFromAnother, true)
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_navDrawerFragment_to_productFragment, bundle)
             }
         }
     }

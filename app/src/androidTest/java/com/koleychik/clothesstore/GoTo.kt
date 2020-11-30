@@ -2,9 +2,9 @@ package com.koleychik.clothesstore
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.test.rule.ActivityTestRule
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import com.koleychik.clothesstore.ui.screens.activities.MainActivity
 
 fun launchFragment(rule : ActivityTestRule<MainActivity>, destinationId: Int,

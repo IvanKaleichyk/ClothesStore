@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.login.WelcomeFragment"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="@dimen/basicMargin">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        style="@style/text"
+        android:gravity="center"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/welcomeText"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btnLogo"
+            style="@style/btnLogo"
+            android:text="@string/create_account"
+            app:layout_constraintBottom_toTopOf="@+id/textSignIn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/smallMargin"
+            />
+
+        <TextView
+            android:id="@+id/textSignIn"
+            style="@style/titleLogo"
+            android:text="@string/sign_in"
+            android:textSize="@dimen/smallTextSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

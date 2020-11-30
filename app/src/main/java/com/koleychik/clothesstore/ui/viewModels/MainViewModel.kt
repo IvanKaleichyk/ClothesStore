@@ -13,9 +13,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var historyRepository: HistoryRepository
 
+
+
     val textSearch = MutableLiveData<String>()
 
     fun insert(model : HistoryModel) = viewModelScope.launch {
         historyRepository.insert(model)
     }
+
+
 }

@@ -38,7 +38,7 @@ class SearchFragmentTest {
 
     @Test
     fun testAll(){
-        launchFragment(rule, R.id.searchFragment, null)
+//        launchFragment(rule, R.id.searchFragment, null)
 
         screen{
             title{

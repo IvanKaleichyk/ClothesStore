@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 data class Photo(
 //    val color: String,
     val created_at: String,
-    val description: String,
+    val description: String?,
     @SerializedName("id")
     val idPhoto: String,
     @Embedded
-    val urls: Urls?
+    val urls: Urls
 )

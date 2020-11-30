@@ -10,13 +10,16 @@ import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.databinding.ItemRvCategoryBinding
 import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.categories.Category
+import com.koleychik.clothesstore.utils.ActiveModel
+import kotlinx.android.synthetic.main.item_rv_category.view.*
 import javax.inject.Inject
 
-class CategoryAdapter @Inject constructor() : RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
+class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) :
+    RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
 
     private val sortedList: SortedList<Category>
 
-     var mainMap = mapOf<Int, List<ProductModel>>()
+    var mainMap = mapOf<Int, List<ProductModel>>()
 
     init {
         sortedList = SortedList(
@@ -46,8 +49,7 @@ class CategoryAdapter @Inject constructor() : RecyclerView.Adapter<CategoryAdapt
         val layoutInflater = LayoutInflater.from(parent.context)
 
         return MainViewHolder(
-            layoutInflater.inflate(R.layout.item_rv_category, parent, false),
-            ItemRvCategoryBinding.inflate(layoutInflater)
+            layoutInflater.inflate(R.layout.item_rv_category, parent, false)
         )
     }
 
@@ -57,19 +59,18 @@ class CategoryAdapter @Inject constructor() : RecyclerView.Adapter<CategoryAdapt
 
     override fun getItemCount(): Int = sortedList.size()
 
-    inner class MainViewHolder(itemView: View, private val binding: ItemRvCategoryBinding) : RecyclerView.ViewHolder(itemView) {
+    inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        @Inject
-        lateinit var adapter: ProductAdapter
+        val adapter = ProductAdapter(activeModel)
 
         fun bind(model: Category) {
-            binding.title.setText(model.getResourceName())
-            binding.icon.setImageResource(model.getImageResource())
+            itemView.title.setText(model.getResourceName())
+            itemView.icon.setImageResource(model.getImageResource())
             createAdapter(model)
         }
 
-        private fun createAdapter(model : Category){
-            binding.rv.adapter = adapter
+        private fun createAdapter(model: Category) {
+            itemView.rv.adapter = adapter
             val list = mainMap[model.getId()]
             if (list == null) itemView.visibility = View.GONE
             else {

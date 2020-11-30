@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1054472487297",
+    "firebase_url": "https://clothes-store-bbeb3.firebaseio.com",
+    "project_id": "clothes-store-bbeb3",
+    "storage_bucket": "clothes-store-bbeb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054472487297:android:d6b1c59d04fdb249186880",
+        "android_client_info": {
+          "package_name": "com.koleychik.clothesstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054472487297-n5385huhsdetvtg1lok3of72t94fuk6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdS46o0G7KliJ7A2PaC23aizQika5WyOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054472487297-n5385huhsdetvtg1lok3of72t94fuk6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,13 +1,16 @@
 package com.koleychik.clothesstore.ui.screens
 
 import android.os.Bundle
-import android.os.Parcelable
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.koleychik.clothesstore.App
@@ -19,10 +22,8 @@ import com.koleychik.clothesstore.ui.adapters.HistoryAdapter
 import com.koleychik.clothesstore.ui.states.SearchState
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.SearchViewModel
-import com.koleychik.clothesstore.utils.Constants
-import com.koleychik.clothesstore.utils.getListFromListResources
-import com.koleychik.clothesstore.utils.getNamesResource
-import com.koleychik.clothesstore.utils.startSearching
+import com.koleychik.clothesstore.utils.*
+import com.koleychik.clothesstore.utils.constants.Constants
 import java.util.*
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class SearchFragment : Fragment() {
 
     lateinit var viewModel: SearchViewModel
 
-    private val keyState = "keyState"
+    private val TAG_SEARCH_WORD = "TAG_SEARCH_WORD"
 
     @Inject
     lateinit var adapter: HistoryAdapter
@@ -42,7 +43,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        saves: Bundle?
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater)
         App.component.inject(this)
@@ -50,7 +51,11 @@ class SearchFragment : Fragment() {
 
         createSpinner()
         createRv()
+        createOnClickListener()
+        createEditText()
         subscribe()
+
+//        if (saves != null) binding.editTextSearch.setText(saves.getString(TAG_SEARCH_WORD))
 
         return binding.root
     }
@@ -83,11 +88,11 @@ class SearchFragment : Fragment() {
                 viewModel.insert(model)
                 adapter.addToList(model)
                 startSearching(
-                    root = binding.root,
-                    textSearch = model.text,
-                    category = model.category as Parcelable,
-                    minPrice = model.minPrice,
-                    maxPrice = model.maxPrice
+                    binding.root,
+                    model.text,
+                    model.categoryId,
+                    model.minPrice,
+                    model.maxPrice
                 )
             }
         })
@@ -99,6 +104,69 @@ class SearchFragment : Fragment() {
             binding.spinnerCategory.setSelection(it)
         })
         viewModel.state.observe(viewLifecycleOwner, { render(it) })
+    }
+
+    private fun createOnClickListener() {
+        binding.startSearch.setOnClickListener {
+            val textSearch = binding.editTextSearch.text.toString().trim()
+            if (textSearch != "") {
+
+                var minPrice = 50
+                var maxPrice = 1000
+                try {
+                    minPrice = binding.minPriceText.text.toString().toInt()
+                    maxPrice = binding.maxPriceText.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    Log.d(Constants.TAG, "error min and max price")
+                }
+                if (checkPrice(minPrice, maxPrice)) {
+                    val categoryId = binding.spinnerCategory.selectedItemPosition
+                    viewModel.insert(
+                        generateHistoryModel(
+                            textSearch,
+                            categoryId,
+                            minPrice,
+                            maxPrice
+                        )
+                    )
+                    startSearching(
+                        Navigation.findNavController(binding.root),
+                        textSearch,
+                        categoryId,
+                        minPrice,
+                        maxPrice
+                    )
+                }
+            } else Navigation.findNavController(binding.root).popBackStack()
+        }
+    }
+
+    private fun checkPrice(minValue: Int, maxValue: Int): Boolean {
+        val res = checkMinAndMaxPrice(minValue, maxValue)
+        return if (res == null) true
+        else {
+            Toast.makeText(requireContext(), requireContext().getString(res), Toast.LENGTH_LONG)
+                .show()
+            false
+        }
+    }
+
+    private fun createEditText() {
+        val textWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                setIconSearch(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        binding.editTextSearch.addTextChangedListener(textWatcher)
+    }
+
+    fun setIconSearch(newText: String) {
+        val text = newText.trim()
+        if (text == "") binding.startSearch.setImageResource(R.drawable.close_icon_32)
+        else binding.startSearch.setImageResource(R.drawable.search_icon_32)
     }
 
     private fun render(state: SearchState) {
@@ -114,5 +182,10 @@ class SearchFragment : Fragment() {
 
     private fun show(list: List<HistoryModel>) {
         adapter.submitList(list)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+//        outState.putString(TAG_SEARCH_WORD, binding.editTextSearch.text.toString())
     }
 }

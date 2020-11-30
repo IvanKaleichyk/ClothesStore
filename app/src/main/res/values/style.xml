@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="settingAccountBox">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:textSize">@dimen/basicTextSize</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:background">@drawable/bg_setting_account_box</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/basicPadding</item>
+    </style>
+
+    <style name="titleLogo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/bigTextSize</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="btnLogo">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/basicPadding</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">@dimen/basicTextSize</item>
+        <item name="android:background">@drawable/logo_btn_bg</item>
+    </style>
+
+   <style name="edtLogo">
+       <item name="android:layout_width">300dp</item>
+       <item name="android:layout_height">wrap_content</item>
+       <item name="android:padding">@dimen/bigPadding</item>
+       <item name="android:textSize">@dimen/smallTextSize</item>
+       <item name="android:textColor">@color/colorBlack</item>
+       <item name="android:fontFamily">@font/roboto_bold</item>
+       <item name="android:background">@drawable/log_edt_bg</item>
+       <item name="android:textAllCaps">false</item>
+       <item name="android:shadowColor">@color/colorBlue</item>
+       <item name="android:shadowDx">-4</item>
+       <item name="android:shadowDy">3</item>
+       <item name="android:shadowRadius">4</item>
+   </style>
+
+    <style name="wrongText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/roboto_italic</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="shadowBasic">
         <item name="android:shadowColor">@color/colorShadow</item>
         <item name="android:shadowDx">1</item>

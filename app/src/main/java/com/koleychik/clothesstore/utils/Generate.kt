@@ -1,34 +1,60 @@
 package com.koleychik.clothesstore.utils
 
+import com.koleychik.clothesstore.models.BasketModel
 import com.koleychik.clothesstore.models.HistoryModel
 import com.koleychik.clothesstore.models.ProductModel
-import com.koleychik.clothesstore.models.categories.Category
 import com.koleychik.clothesstore.models.networkModels.Photo
+import com.koleychik.clothesstore.utils.constants.Constants
 import java.math.BigDecimal
 import java.util.*
 
-fun generateHistoryModel(text: String, category: Category, minPrice: Int, maxPrice: Int) =
-    HistoryModel(text, Date().time, category, minPrice, maxPrice)
+fun generateBasketModel(
+    productModel: ProductModel,
+    size: String,
+    isInBasket: Boolean = productModel.isInBasket
+) = BasketModel(
+    productModel.photo,
+    productModel.categoryId,
+    productModel.price,
+    productModel.salePrice,
+    isInBasket,
+    productModel.isInFavorites,
+    size,
+    productModel.sale
+)
 
-fun generateProductModel(photo: Photo, category: Category) = ProductModel(
+fun generateHistoryModel(text: String, categoryId: Int, minPrice: Int, maxPrice: Int) =
+    HistoryModel(text, Date().time, categoryId, minPrice, maxPrice)
+
+fun generateProductModel(
+    photo: Photo,
+    categoryId: Int,
+    minPrice: Int = Constants.priceMin,
+    maxPrice: Int = Constants.priceMax
+) = ProductModel(
     photo = photo,
-    category = category,
-    price = generatePrice(),
+    categoryId = categoryId,
+    price = generatePrice(minPrice, maxPrice),
     salePrice = 0,
     isInBasket = false,
     isInFavorites = false
 )
 
-fun generateProductModel(photos: List<Photo>, category: Category): List<ProductModel> {
+fun generateProductModel(
+    photos: List<Photo>,
+    categoryId: Int,
+    minPrice: Int = Constants.priceMin,
+    maxPrice: Int = Constants.priceMax
+): List<ProductModel> {
     val list = mutableListOf<ProductModel>()
     for (i in photos) {
-        list.add(generateProductModel(i, category))
+        list.add(generateProductModel(i, categoryId, minPrice, maxPrice))
     }
     return list
 }
 
-fun generatePrice(): Int {
-    return Random().nextInt(1 + Constants.priceMax - Constants.priceMin) + Constants.priceMin
+fun generatePrice(minPrice: Int = Constants.priceMin, maxPrice: Int = Constants.priceMax): Int {
+    return Random().nextInt(1 + maxPrice - minPrice) + minPrice
 }
 
 fun generateSalePrice(productModel: ProductModel) {

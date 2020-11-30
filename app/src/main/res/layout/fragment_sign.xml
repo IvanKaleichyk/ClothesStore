@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.screens.login.SignInFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/basicMargin"
+        android:paddingTop="@dimen/extraBigMargin"
+        android:paddingEnd="@dimen/basicMargin"
+        android:paddingBottom="@dimen/extraBigMargin">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/titleLogo"
+            android:text="@string/sign_in"
+            android:textSize="@dimen/extraBigTextSize"
+            app:layout_constraintStart_toStartOf="@+id/editTextFirst"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/descriptionFirst"
+            style="@style/titleLogo"
+            android:layout_marginTop="@dimen/basicMargin"
+            android:text="@string/email"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <EditText
+            android:id="@+id/editTextFirst"
+            style="@style/edtLogo"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:hint="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionFirst" />
+
+        <TextView
+            android:id="@+id/descriptionSecond"
+            style="@style/titleLogo"
+            android:layout_marginTop="@dimen/bigMargin"
+            android:text="@string/email"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFirst" />
+
+        <EditText
+            android:id="@+id/editTextSecond"
+            style="@style/edtLogo"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:hint="@string/email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionSecond" />
+
+        <TextView
+            android:id="@+id/textWrong"
+            style="@style/wrongText"
+            android:paddingTop="@dimen/extraSmallMargin"
+            app:layout_constraintEnd_toEndOf="@+id/editTextSecond"
+            app:layout_constraintStart_toStartOf="@+id/editTextSecond"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSecond" />
+
+        <Button
+            android:id="@+id/btnContinue"
+            style="@style/btnLogo"
+            android:text="@string/continue_main"
+            android:layout_marginBottom="@dimen/extraSmallMargin"
+            app:layout_constraintBottom_toTopOf="@id/forgotPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/forgotPassword"
+            style="@style/titleLogo"
+            android:text="@string/forgotPassword"
+            android:textSize="@dimen/smallTextSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/setSign"
+            style="@style/titleLogo"
+            android:text="Sign in"
+            android:textSize="@dimen/basicTextSize"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

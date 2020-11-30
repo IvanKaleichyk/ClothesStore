@@ -17,5 +17,4 @@ interface ProductsDao {
 
     @Insert
     suspend fun insert(model : ProductModel)
-
 }

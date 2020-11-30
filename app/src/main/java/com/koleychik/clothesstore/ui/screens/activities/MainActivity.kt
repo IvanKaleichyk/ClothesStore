@@ -1,29 +1,13 @@
 package com.koleychik.clothesstore.ui.screens.activities
 
-import android.content.res.Configuration
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
-import com.google.android.material.navigation.NavigationView
-import com.koleychik.clothesstore.App
-import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.databinding.ActivityMainBinding
 import com.koleychik.clothesstore.databinding.AppBarMainBinding
-import com.koleychik.clothesstore.ui.screens.navDrawer.BasketFragment
-import com.koleychik.clothesstore.ui.screens.navDrawer.FavoritesFragment
-import com.koleychik.clothesstore.ui.screens.navDrawer.HomeFragment
-import com.koleychik.clothesstore.ui.screens.navDrawer.SettingsFragment
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.MainViewModel
-import com.koleychik.clothesstore.ui.viewPager.ViewPagerAdapter
-import com.koleychik.clothesstore.utils.generateHistoryModel
-import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
 
 

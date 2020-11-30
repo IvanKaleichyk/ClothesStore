@@ -42,6 +42,7 @@
     <dimen name="maxWithBtn">280dp</dimen>
 
     <dimen name="pagePaddingTop">5dp</dimen>
-    <dimen name="pagePaddingStart">7dp</dimen>
+    <dimen name="pagePaddingStart">10dp</dimen>
+    <dimen name="progress_bar">40dp</dimen>
 
 </resources>

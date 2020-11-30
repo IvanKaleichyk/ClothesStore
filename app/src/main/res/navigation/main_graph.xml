@@ -10,9 +10,13 @@
         android:name="com.koleychik.clothesstore.ui.screens.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start">
+
         <action
-            android:id="@+id/action_startFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/action_startFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_navDrawerFragment"
+            app:destination="@id/navDrawerFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -27,29 +31,94 @@
         android:id="@+id/searchResultFragment"
         android:name="com.koleychik.clothesstore.ui.screens.SearchResultFragment"
         android:label="fragment_search_result"
-        tools:layout="@layout/fragment_search_resoult" />
-    <fragment
-        android:id="@+id/basketFragment"
-        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.BasketFragment"
-        android:label="fragment_basket"
-        tools:layout="@layout/fragment_basket" />
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.FavoritesFragment"
-        android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_search_resoult" >
+        <action
+            android:id="@+id/action_searchResultFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navDrawerFragment"
         android:name="com.koleychik.clothesstore.ui.screens.NavDrawerFragment"
-        android:label="NavDrawerFragment" />
+        android:label="NavDrawerFragment" >
+        <action
+            android:id="@+id/action_navDrawerFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.ProductFragment"
+        android:label="fragment_product"
+        tools:layout="@layout/fragment_product" />
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.login.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_emailAndNameFragment"
+            app:destination="@id/emailAndNameFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailAndNameFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.login.signUp.EmailAndNameFragment"
+        android:label="EmailAndNameFragment" >
+        <action
+            android:id="@+id/action_emailAndNameFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_emailAndNameFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.login.signUp.SignUpFragment"
+        android:label="fragment_sign"
+        tools:layout="@layout/fragment_sign" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.login.SignInFragment"
+        android:label="fragment_sign"
+        tools:layout="@layout/fragment_sign" >
+        <action
+            android:id="@+id/action_signInFragment_to_navDrawerFragment"
+            app:destination="@id/navDrawerFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_emailAndNameFragment"
+            app:destination="@id/emailAndNameFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_emailFragment"
+            app:destination="@id/emailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.login.InfoFragment"
+        android:label="InfoFragment" >
+        <action
+            android:id="@+id/action_infoFragment_to_navDrawerFragment"
+            app:destination="@id/navDrawerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.login.forgotPassword.EmailFragment"
+        android:label="EmailFragment" >
+        <action
+            android:id="@+id/action_emailFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.settings.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+
 </navigation>

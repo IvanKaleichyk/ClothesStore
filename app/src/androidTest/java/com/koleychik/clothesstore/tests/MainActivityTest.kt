@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.agoda.kakao.screen.Screen
 import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.screens.MainActivityScreen
 import com.koleychik.clothesstore.ui.screens.activities.MainActivity

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="210dp"
+    android:layout_width="220dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:cardView="http://schemas.android.com/tools"
@@ -26,25 +26,26 @@
     <TextView
         android:id="@+id/description"
         style="@style/text"
-        android:fontFamily="@font/roboto_medium"
-        android:maxLines="2"
-        android:gravity="center"
+        android:layout_width="0dp"
         android:ellipsize="end"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:maxLines="2"
         android:text="lwedjwidiwedjewldksdhckdh hk"
         android:textSize="@dimen/extraSmallTextSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
     <TextView
         android:id="@+id/fullPrice"
         style="@style/text"
+        android:layout_marginTop="@dimen/extraSmallPadding"
         android:fontFamily="@font/roboto_bold"
         android:text="1000$"
         android:textSize="@dimen/extraSmallTextSize"
-        android:layout_marginTop="@dimen/extraSmallPadding"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <TextView
@@ -53,11 +54,11 @@
         android:layout_marginTop="@dimen/extraSmallPadding"
         android:fontFamily="@font/roboto_bold"
         android:text="500$"
-        android:textSize="@dimen/extraSmallTextSize"
         android:textColor="@color/colorRed"
-        android:visibility="gone"
+        android:textSize="@dimen/extraSmallTextSize"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

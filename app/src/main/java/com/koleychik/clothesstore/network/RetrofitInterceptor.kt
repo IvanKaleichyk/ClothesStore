@@ -1,6 +1,6 @@
 package com.koleychik.clothesstore.network
 
-import com.koleychik.clothesstore.utils.Constants
+import com.koleychik.clothesstore.utils.constants.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

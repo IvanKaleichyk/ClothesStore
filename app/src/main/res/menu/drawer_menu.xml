@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/homeFragment"
         android:title="@string/home"
@@ -13,17 +12,19 @@
         android:title="@string/basket"
         android:icon="@drawable/basket_icon_32"
         app:showAsAction="ifRoom"/>
+    <group
+        android:id="@+id/settingsGroup">
 
-    <item
-        android:id="@+id/favoritesFragment"
-        android:title="@string/favorites"
-        android:icon="@drawable/favorites_icon"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/settingsFragment"
-        android:title="@string/settings"
-        android:icon="@drawable/setting_icon_32"
-        app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/accountFragment"
+            android:title="@string/account"
+            android:icon="@drawable/setting_icon_32"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/support"
+            android:title="@string/support"
+            android:icon="@drawable/support_icon"
+            app:showAsAction="ifRoom"/>
+    </group>
 
 </menu>

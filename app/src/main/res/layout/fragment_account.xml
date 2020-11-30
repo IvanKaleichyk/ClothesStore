@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.screens.settings.AccountFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/test_img"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/text"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Ivan Koleychik"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center|top"
+            android:paddingTop="@dimen/basicMargin">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/setName"
+                    style="@style/settingAccountBox"
+                    android:layout_marginStart="@dimen/extraSmallMargin"
+                    android:layout_marginEnd="@dimen/extraSmallMargin"
+                    android:text="@string/set_name" />
+
+                <TextView
+                    android:id="@+id/setEmail"
+                    style="@style/settingAccountBox"
+                    android:layout_marginStart="@dimen/extraSmallMargin"
+                    android:layout_marginEnd="@dimen/extraSmallMargin"
+                    android:text="@string/set_email" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/setPassword"
+                    style="@style/settingAccountBox"
+                    android:layout_marginStart="@dimen/extraSmallMargin"
+                    android:layout_marginEnd="@dimen/extraSmallMargin"
+                    android:text="@string/set_password" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="bottom"
+        app:layoutDescription="@xml/account_info_motion_layout_scene"
+        >
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imageRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <include
+                android:id="@+id/loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/loading"/>
+
+            <TextView
+                android:id="@+id/textNothing"
+                style="@style/text"
+                android:fontFamily="@font/roboto_italic"
+                android:layout_margin="@dimen/basicMargin"
+                android:visibility="gone"
+                android:text="You haven't images"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+</FrameLayout>
