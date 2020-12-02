@@ -20,32 +20,32 @@ import org.mockito.Mockito
 import javax.inject.Singleton
 
 
-class FakeRepositoryModules : RepositoryModule(){
-
-    @Provides
-    @Singleton
-    fun provideHistoryDatabase() =
-        Mockito.`when`(Mockito.mock(HistoryDatabase::class.java).mainDAO())
-            .thenReturn(FakeHistoryDao())
-
-    @Provides
-    @Singleton
-    fun provideBasketDatabase() =
-        Mockito.`when`(Mockito.mock(BasketDatabase::class.java).mainDAO())
-            .thenReturn(FakeBasketDao())
-
-    @Provides
-    @Singleton
-    fun provideBoughtDatabase() = Mockito.`when`(Mockito.mock(BoughtDatabase::class.java).mainDAO())
-        .thenReturn(FakeProductDao())
-
-    @Provides
-    @Singleton
-    fun provideSaleDatabase() =
-        Mockito.`when`(Mockito.mock(SaleDatabase::class.java).mainDAO())
-            .thenReturn(FakeProductDao())
-
-}
+//class FakeRepositoryModules : RepositoryModule(){
+//
+//    @Provides
+//    @Singleton
+//    fun provideHistoryDatabase() =
+//        Mockito.`when`(Mockito.mock(HistoryDatabase::class.java).mainDAO())
+//            .thenReturn(FakeHistoryDao())
+//
+//    @Provides
+//    @Singleton
+//    fun provideBasketDatabase() =
+//        Mockito.`when`(Mockito.mock(BasketDatabase::class.java).mainDAO())
+//            .thenReturn(FakeBasketDao())
+//
+//    @Provides
+//    @Singleton
+//    fun provideBoughtDatabase() = Mockito.`when`(Mockito.mock(BoughtDatabase::class.java).mainDAO())
+//        .thenReturn(FakeProductDao())
+//
+//    @Provides
+//    @Singleton
+//    fun provideSaleDatabase() =
+//        Mockito.`when`(Mockito.mock(SaleDatabase::class.java).mainDAO())
+//            .thenReturn(FakeProductDao())
+//
+//}
 
 class FakeProductDao : ProductsDao {
 

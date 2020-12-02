@@ -1,6 +1,8 @@
 package com.koleychik.clothesstore.data
 
+import android.bluetooth.BluetoothClass
 import com.koleychik.clothesstore.models.BasketModel
+import com.koleychik.clothesstore.models.DeviceImage
 import com.koleychik.clothesstore.models.HistoryModel
 import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.networkModels.Photo
@@ -9,7 +11,25 @@ import com.koleychik.clothesstore.utils.constants.Constants
 import com.koleychik.clothesstore.utils.generateHistoryModel
 import com.koleychik.clothesstore.utils.generatePrice
 import com.koleychik.clothesstore.utils.getAll
+import java.lang.StringBuilder
 import java.util.*
+
+fun getListDeviceImages(): List<DeviceImage> {
+    val random = Random()
+    val idSet = mutableSetOf<Int>()
+    val listRes = mutableListOf<DeviceImage>()
+    var number = 0
+    while (number < 5) {
+        val id = random.nextInt()
+        if (idSet.contains(id)) continue
+        idSet.add(id)
+        val data = StringBuilder()
+        for (i in (0..9)) data.append(i)
+        listRes.add(DeviceImage(id.toString(), data.toString()))
+        number++
+    }
+    return listRes
+}
 
 fun getListHistoryModel(): List<HistoryModel> {
     val list = mutableListOf<HistoryModel>()

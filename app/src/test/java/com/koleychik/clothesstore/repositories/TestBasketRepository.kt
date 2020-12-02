@@ -3,8 +3,6 @@ package com.koleychik.clothesstore.repositories
 import com.koleychik.clothesstore.coroutines.CoroutineTestRule
 import com.koleychik.clothesstore.data.DataRepository
 import com.koleychik.clothesstore.data.listBasketModels
-import com.koleychik.clothesstore.database.database.BasketDatabase
-import com.koleychik.clothesstore.fakeDI.FakeBasketDao
 import com.koleychik.clothesstore.models.BasketModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runBlockingTest
@@ -12,7 +10,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 
 @ExperimentalCoroutinesApi
 class TestBasketRepository {
@@ -20,7 +17,6 @@ class TestBasketRepository {
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
 
-    //    @Inject
     private lateinit var repository: BasketRepository
 
     @Before
