@@ -16,18 +16,22 @@ import com.koleychik.clothesstore.ui.screens.settings.AccountFragment
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [
-    AppModule::class,
-    DatabaseModule::class,
-    NetworkModule::class,
-    RepositoryModule::class,
-    ViewModelModule::class
-])
+@Component(
+    modules = [
+        AppModule::class,
+        DatabaseModule::class,
+        NetworkModule::class,
+        RepositoryModule::class,
+        ViewModelModule::class,
+        NetworkRepositoryModule::class
+    ]
+)
 @Singleton
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(homeFragment: HomeFragment)
-//    fun inject(productAdapter: ProductAdapter)
+
+    //    fun inject(productAdapter: ProductAdapter)
     fun inject(productFragment: ProductFragment)
     fun inject(searchFragment: SearchFragment)
     fun inject(searchResultFragment: SearchResultFragment)

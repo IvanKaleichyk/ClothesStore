@@ -8,16 +8,12 @@ import com.koleychik.clothesstore.repositories.HistoryRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var historyRepository: HistoryRepository
-
-
+class MainViewModel @Inject constructor(private var historyRepository: HistoryRepository) :
+    ViewModel() {
 
     val textSearch = MutableLiveData<String>()
 
-    fun insert(model : HistoryModel) = viewModelScope.launch {
+    fun insert(model: HistoryModel) = viewModelScope.launch {
         historyRepository.insert(model)
     }
 

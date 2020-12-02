@@ -11,10 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var repository: HistoryRepository
+class SearchViewModel @Inject constructor(private val repository: HistoryRepository) : ViewModel() {
 
     val state = MutableLiveData<SearchState>(SearchState.Loading)
 

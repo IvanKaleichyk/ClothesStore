@@ -9,9 +9,7 @@ import com.koleychik.clothesstore.fakeDI.FakeProductDao
 import com.koleychik.clothesstore.repositories.BasketRepository
 import com.koleychik.clothesstore.repositories.BoughtRepository
 import com.koleychik.clothesstore.repositories.HistoryRepository
-import com.koleychik.clothesstore.repositories.NetworkRepository
 import org.mockito.Mockito
-import retrofit2.Response
 
 class DataRepository {
 

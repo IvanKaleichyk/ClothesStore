@@ -10,10 +10,7 @@ import com.koleychik.clothesstore.ui.states.BasketState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BasketViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var repository: BasketRepository
+class BasketViewModel @Inject constructor(private val repository: BasketRepository) : ViewModel() {
 
     val state = MutableLiveData<BasketState>(BasketState.Loading)
 
@@ -23,7 +20,7 @@ class BasketViewModel @Inject constructor() : ViewModel() {
         else state.value = BasketState.Show(list)
     }
 
-    fun delete(model : BasketModel) = viewModelScope.launch {
+    fun delete(model: BasketModel) = viewModelScope.launch {
         repository.delete(model)
     }
 

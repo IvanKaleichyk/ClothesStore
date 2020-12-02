@@ -20,6 +20,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "ACCESS_KEY", ACCESS_KEY)
+        buildConfigField("String", "SECRET_KEY", SECRET_KEY)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +38,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
 
     viewBinding.enabled = true
@@ -69,9 +76,9 @@ dependencies {
 
     // paging
     def paging_version = "3.0.0-alpha09"
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     // alternatively - without Android dependencies for tests
-    testImplementation "androidx.paging:paging-common:$paging_version"
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
 
 // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
@@ -133,6 +140,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 
 //    NEW TEST
-    androidTestImplementation 'androidx.test:rules:1.1.1'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
 }

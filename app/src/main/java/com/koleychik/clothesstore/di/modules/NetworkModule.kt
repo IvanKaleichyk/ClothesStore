@@ -2,8 +2,10 @@ package com.koleychik.clothesstore.di.modules
 
 import com.koleychik.clothesstore.network.PhotoApi
 import com.koleychik.clothesstore.network.RetrofitInterceptor
-import com.koleychik.clothesstore.repositories.NetworkRepository
-import com.koleychik.clothesstore.utils.constants.Constants.Companion.BASE_URL
+import com.koleychik.clothesstore.repositories.networkRepository.NetworkRepository
+import com.koleychik.clothesstore.repositories.networkRepository.NetworkRepositoryImpl
+import com.koleychik.clothesstore.utils.constants.Constants
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -15,10 +17,6 @@ import javax.inject.Singleton
 class NetworkModule {
 
     @Provides
-    @Singleton
-    fun provideNetworkRepository(api: PhotoApi) = NetworkRepository(api)
-
-    @Provides
     fun provideClient(): OkHttpClient = OkHttpClient.Builder().apply {
         addInterceptor(RetrofitInterceptor())
     }.build()
@@ -26,7 +24,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient) = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(Constants.BASE_URL)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

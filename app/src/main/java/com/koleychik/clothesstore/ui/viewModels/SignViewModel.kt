@@ -13,7 +13,7 @@ import com.koleychik.clothesstore.utils.SignUtils
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class SignViewModel @Inject constructor() : ViewModel() {
+class SignViewModel @Inject constructor(private val repository: FirebaseRepository) : ViewModel() {
 
     val state = MutableLiveData<SignState>(SignState.Waiting)
 
@@ -23,9 +23,6 @@ class SignViewModel @Inject constructor() : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private var user = auth.currentUser
     val database = FirebaseDatabase.getInstance()
-
-    @Inject
-    lateinit var repository: FirebaseRepository
 
     fun signIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {

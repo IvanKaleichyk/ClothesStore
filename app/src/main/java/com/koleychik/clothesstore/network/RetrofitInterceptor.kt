@@ -1,6 +1,6 @@
 package com.koleychik.clothesstore.network
 
-import com.koleychik.clothesstore.utils.constants.Constants
+import com.koleychik.clothesstore.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -10,7 +10,7 @@ class RetrofitInterceptor @Inject constructor() : Interceptor {
         val original = chain.request()
         val originalHttpUrl = original.url()
         val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("client_id", Constants.ACCESS_KEY)
+            .addQueryParameter("client_id", BuildConfig.ACCESS_KEY)
             .build()
 
         val request = original.newBuilder().url(url).build()

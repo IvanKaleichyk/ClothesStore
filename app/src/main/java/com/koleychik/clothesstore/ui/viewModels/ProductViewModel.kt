@@ -8,11 +8,7 @@ import com.koleychik.clothesstore.repositories.BasketRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ProductViewModel @Inject constructor() : ViewModel(){
-
-    @Inject
-    lateinit var basketRepository : BasketRepository
-
+class ProductViewModel @Inject constructor(private val basketRepository : BasketRepository) : ViewModel(){
 
     val isInBasket = MutableLiveData<Boolean>()
     val isInFavorites = MutableLiveData<Boolean>()

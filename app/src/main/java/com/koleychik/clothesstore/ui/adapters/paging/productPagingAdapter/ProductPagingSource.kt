@@ -2,7 +2,7 @@ package com.koleychik.clothesstore.ui.adapters.paging.productPagingAdapter
 
 import androidx.paging.PagingSource
 import com.koleychik.clothesstore.models.ProductModel
-import com.koleychik.clothesstore.repositories.NetworkRepository
+import com.koleychik.clothesstore.repositories.networkRepository.NetworkRepository
 import com.koleychik.clothesstore.utils.generateProductModel
 import java.lang.Exception
 

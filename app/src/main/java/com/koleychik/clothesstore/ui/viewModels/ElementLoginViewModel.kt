@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.koleychik.clothesstore.repositories.FirebaseRepository
 import javax.inject.Inject
 
-class ElementLoginViewModel @Inject constructor() : ViewModel(){
-
-    @Inject
-    lateinit var repository: FirebaseRepository
+class ElementLoginViewModel @Inject constructor(private val repository: FirebaseRepository) :
+    ViewModel() {
 
     val text = MutableLiveData<String>()
 

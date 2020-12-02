@@ -11,10 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AccountViewModel @Inject constructor(): ViewModel() {
-
-    @Inject
-    lateinit var repository: DeviceImagesRepository
+class AccountViewModel @Inject constructor(private val repository: DeviceImagesRepository) :
+    ViewModel() {
 
     val listImages = MutableLiveData<List<DeviceImage>>()
 
@@ -22,9 +20,9 @@ class AccountViewModel @Inject constructor(): ViewModel() {
 
     val isRvOpen = MutableLiveData(false)
 
-    fun getAllImages() = viewModelScope.launch{
+    fun getAllImages() = viewModelScope.launch {
         val list = repository.getAll()
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             if (list == null || list.isEmpty()) listImages.value = listOf()
             else listImages.value = list
         }
