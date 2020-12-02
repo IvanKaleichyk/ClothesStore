@@ -24,7 +24,7 @@ class TestBoughtRepository {
 
     @Before
     fun setUp() {
-        repository = DataRepository.getBoughtRepository()
+        repository = DataRepository.getBoughtRepository(listProductModels())
     }
 
     @Test

@@ -8,7 +8,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.screen.Screen.Companion.idle
 import com.google.firebase.auth.FirebaseAuth
+import com.koleychik.clothesstore.App
 import com.koleychik.clothesstore.R
+import com.koleychik.clothesstore.di.components.DaggerAppComponent
+import com.koleychik.clothesstore.di.modules.AppModule
 import com.koleychik.clothesstore.launchFragment
 import com.koleychik.clothesstore.repositories.DeviceImagesRepository
 import com.koleychik.clothesstore.settings.screens.AccountScreen

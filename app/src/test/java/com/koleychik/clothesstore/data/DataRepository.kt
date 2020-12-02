@@ -6,7 +6,10 @@ import com.koleychik.clothesstore.database.database.HistoryDatabase
 import com.koleychik.clothesstore.fakeDI.FakeBasketDao
 import com.koleychik.clothesstore.fakeDI.FakeHistoryDao
 import com.koleychik.clothesstore.fakeDI.FakeProductDao
+import com.koleychik.clothesstore.models.BasketModel
 import com.koleychik.clothesstore.models.DeviceImage
+import com.koleychik.clothesstore.models.HistoryModel
+import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.networkModels.NetworkRequest
 import com.koleychik.clothesstore.repositories.BasketRepository
 import com.koleychik.clothesstore.repositories.BoughtRepository
@@ -39,21 +42,21 @@ class DataRepository {
             return repository
         }
 
-        fun getHistoryRepository(): HistoryRepository {
+        fun getHistoryRepository(value: List<HistoryModel>?): HistoryRepository {
             val database = Mockito.mock(HistoryDatabase::class.java)
-            Mockito.`when`(database.mainDAO()).thenReturn(FakeHistoryDao())
+            Mockito.`when`(database.mainDAO()).thenReturn(FakeHistoryDao(value))
             return HistoryRepository(database)
         }
 
-        fun getBoughtRepository(): BoughtRepository {
+        fun getBoughtRepository(value: List<ProductModel>?): BoughtRepository {
             val database = Mockito.mock(BoughtDatabase::class.java)
-            Mockito.`when`(database.mainDAO()).thenReturn(FakeProductDao())
+            Mockito.`when`(database.mainDAO()).thenReturn(FakeProductDao(value))
             return BoughtRepository(database)
         }
 
-        fun getBasketRepository(): BasketRepository {
+        fun getBasketRepository(value: List<BasketModel>?): BasketRepository {
             val database = Mockito.mock(BasketDatabase::class.java)
-            Mockito.`when`(database.mainDAO()).thenReturn(FakeBasketDao())
+            Mockito.`when`(database.mainDAO()).thenReturn(FakeBasketDao(value))
             return BasketRepository(database)
         }
     }

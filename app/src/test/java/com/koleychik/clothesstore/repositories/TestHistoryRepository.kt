@@ -25,7 +25,7 @@ class TestHistoryRepository {
 
     @Before
     fun setUp(){
-        repository = DataRepository.getHistoryRepository()
+        repository = DataRepository.getHistoryRepository(getListHistoryModel())
     }
 
     @Test

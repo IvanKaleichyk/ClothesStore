@@ -21,7 +21,7 @@ class TestBasketRepository {
 
     @Before
     fun setUp() {
-        repository = DataRepository.getBasketRepository()
+        repository = DataRepository.getBasketRepository(listBasketModels())
     }
 
     @Test

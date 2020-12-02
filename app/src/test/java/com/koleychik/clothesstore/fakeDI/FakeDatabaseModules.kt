@@ -47,9 +47,9 @@ import javax.inject.Singleton
 //
 //}
 
-class FakeProductDao : ProductsDao {
+class FakeProductDao(value: List<ProductModel>?) : ProductsDao {
 
-    private val list = listProductModels()
+    private val list = value ?: listOf()
 
     override suspend fun getAll(): List<ProductModel> = list
 
@@ -64,24 +64,24 @@ class FakeProductDao : ProductsDao {
 
 }
 
-class FakeHistoryDao : HistoryDao {
-    private val list = getListHistoryModel() as MutableList
+class FakeHistoryDao(value: List<HistoryModel>?) : HistoryDao {
+    private val list = value ?: listOf()
     override suspend fun getAll(): List<HistoryModel> = list
 
     override suspend fun delete(model: HistoryModel) {
-        list.remove(model)
+        (list as MutableList).remove(model)
     }
 
 
     override suspend fun insert(model: HistoryModel) {
-        list.add(model)
+        (list as MutableList).add(model)
     }
 
 }
 
-class FakeBasketDao() : BasketDao {
+class FakeBasketDao(value: List<BasketModel>?) : BasketDao {
 
-    private val listMain = listBasketModels()
+    private val listMain = value ?: listOf()
 //
 //    fun getList() = listMain
 
@@ -96,11 +96,11 @@ class FakeBasketDao() : BasketDao {
 //
 //    fun insert(model: BasketModel) = (listMain as MutableList).add(model)
     override suspend fun getAll(): List<BasketModel> = listMain
-    override suspend fun getById(id: Int): BasketModel {
+    override suspend fun getById(id: Int): BasketModel? {
         for (i in listMain) {
             if (i.id == id) return i
         }
-        return listMain[0]
+        return null
     }
 
 
