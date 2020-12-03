@@ -30,13 +30,13 @@ class DialogSetSomething @Inject constructor(private val context: Context) {
         dialog.setContentView(R.layout.dialog_set_something)
     }
 
-    private val binding by lazy {
-        DialogSetSomethingBinding.inflate(dialog.layoutInflater)
-    }
+//    private val binding by lazy {
+//        DialogSetSomethingBinding.inflate(dialog.layoutInflater)
+//    }
 
     suspend fun setEmail() {
         withContext(Dispatchers.Main) { setState(DialogStateSamethingState.Loading) }
-        val email = binding.editText.text.toString().trim()
+        val email = dialog.editText.text.toString().trim()
         val code = SignUtils.checkingEmail(email)
         if (code != null) {
             withContext(Dispatchers.Main) {
@@ -63,7 +63,7 @@ class DialogSetSomething @Inject constructor(private val context: Context) {
     suspend fun setName() {
         withContext(Dispatchers.Main) { setState(DialogStateSamethingState.Loading) }
         val user = FirebaseAuth.getInstance().currentUser!!
-        repository.updateUser(binding.editText.text.toString().trim(), user.photoUrl, {
+        repository.updateUser(dialog.editText.text.toString().trim(), user.photoUrl, {
             CoroutineScope(Dispatchers.Main).launch {
                 Toast.makeText(
                     context, context.getText(R.string.name_was_updated), Toast.LENGTH_LONG
@@ -83,25 +83,29 @@ class DialogSetSomething @Inject constructor(private val context: Context) {
 
     fun render(state: DialogStateSamethingState) {
         dialog.loading.isVisible = state is DialogStateSamethingState.Loading
-        if (state is DialogStateSamethingState.Error){
-            binding.editText.error = context.getString(state.textRes)
+        if (state is DialogStateSamethingState.Error) {
+            dialog.editText.error = context.getString(state.textRes)
         }
     }
 
-    fun setOnCLickListener(click: () -> Unit) {
-        binding.btn.setOnClickListener {
+    fun setOnCLickListenerDialog(click: () -> Unit) {
+//        withContext(Dispatchers.Main) {
+            dialog.show()
+//        }
+        dialog.btn.setOnClickListener {
             click()
+            dialog.dismiss()
         }
     }
 
     fun setTitle(textRes: Int) {
-        binding.title.setText(textRes)
-        binding.editText.setHint(textRes)
+        dialog.title.setText(textRes)
+        dialog.editText.setHint(textRes)
     }
 
     fun setTitle(text: String) {
-        binding.title.text = text
-        binding.editText.hint = text
+        dialog.title.text = text
+        dialog.editText.hint = text
     }
 
 }

@@ -46,6 +46,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         App.component.inject(this)
+        dialog = DialogSetSomething(binding.root.context)
 
         subscribe()
         createRv()
@@ -89,18 +90,23 @@ class AccountFragment : Fragment() {
 
         binding.setName.setOnClickListener {
             dialog.setTitle(binding.setName.text.toString())
-            dialog.setOnCLickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    dialog.setName()
+//            CoroutineScope(Dispatchers.Main).launch {
+                dialog.setOnCLickListenerDialog {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dialog.setName()
+                    }
+                    binding.name
                 }
-            }
+//            }
         }
-        binding.setName.setOnClickListener {
+        binding.setEmail.setOnClickListener {
             dialog.setTitle(binding.setEmail.text.toString())
-            dialog.setOnCLickListener {
-                CoroutineScope(Dispatchers.IO).launch {
+//            CoroutineScope(Dispatchers.IO).launch {
+                dialog.setOnCLickListenerDialog {
+                    CoroutineScope(Dispatchers.IO).launch {
                     dialog.setEmail()
-                }
+                    }
+//                }
             }
         }
 //        TODO -> ON CLICK TO SET PASSWORD -> --------------------
