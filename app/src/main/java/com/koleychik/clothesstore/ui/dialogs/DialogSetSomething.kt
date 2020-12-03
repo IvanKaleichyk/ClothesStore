@@ -2,6 +2,7 @@ package com.koleychik.clothesstore.ui.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
@@ -60,7 +61,7 @@ class DialogSetSomething @Inject constructor(private val context: Context) {
         }
     }
 
-    suspend fun setName() {
+    suspend fun setName(textViewName: TextView) {
         withContext(Dispatchers.Main) { setState(DialogStateSamethingState.Loading) }
         val user = FirebaseAuth.getInstance().currentUser!!
         repository.updateUser(dialog.editText.text.toString().trim(), user.photoUrl, {
@@ -68,6 +69,9 @@ class DialogSetSomething @Inject constructor(private val context: Context) {
                 Toast.makeText(
                     context, context.getText(R.string.name_was_updated), Toast.LENGTH_LONG
                 ).show()
+
+                textViewName.text = user.displayName
+
                 setState(DialogStateSamethingState.Show)
                 dialog.dismiss()
             }

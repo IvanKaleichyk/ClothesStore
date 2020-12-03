@@ -11,14 +11,16 @@ import com.koleychik.clothesstore.ui.states.HomeState
 import com.koleychik.clothesstore.utils.constants.Constants
 import com.koleychik.clothesstore.utils.errorResponse
 import com.koleychik.clothesstore.utils.generateProductModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val repository: NetworkRepository) : ViewModel() {
 
     val state = MutableLiveData<HomeState>(HomeState.Loading)
 
-    fun getData(listCategory: List<Category>) = viewModelScope.launch {
+    fun getData(listCategory: List<Category>) = viewModelScope.launch(Dispatchers.IO) {
         Log.d(Constants.TAG, "startGetData")
         val map = mutableMapOf<Int, List<ProductModel>>()
 
@@ -36,7 +38,9 @@ class HomeViewModel @Inject constructor(private val repository: NetworkRepositor
             }
         }
 
-        Log.d(Constants.TAG, "map.size = ${map.size}")
-        state.value = HomeState.Show(listCategory, map)
+        withContext(Dispatchers.Main) {
+            Log.d(Constants.TAG, "map.size = ${map.size}")
+            state.value = HomeState.Show(listCategory, map)
+        }
     }
 }

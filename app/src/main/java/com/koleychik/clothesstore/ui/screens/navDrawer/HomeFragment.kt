@@ -1,6 +1,7 @@
 package com.koleychik.clothesstore.ui.screens.navDrawer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,21 +14,22 @@ import com.koleychik.clothesstore.ui.adapters.CategoryAdapter
 import com.koleychik.clothesstore.ui.states.HomeState
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.HomeViewModel
+import com.koleychik.clothesstore.utils.constants.Constants
 import com.koleychik.clothesstore.utils.listCategory
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
 
-    private lateinit var viewModel : HomeViewModel
-
-    @Inject
-    lateinit var adapter : CategoryAdapter
+    private lateinit var viewModel: HomeViewModel
 
     @Inject
-    lateinit var viewModelFactory : MainViewModelFactory
+    lateinit var adapter: CategoryAdapter
+
+    @Inject
+    lateinit var viewModelFactory: MainViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,19 +46,16 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun subscribe(){
-        viewModel.state.observe(viewLifecycleOwner, {render(it)})
+    private fun subscribe() {
+        viewModel.state.observe(viewLifecycleOwner, { render(it) })
     }
 
-    private fun createRv(){
+    private fun createRv() {
         binding.rv.adapter = adapter
     }
-
-    private fun render(state : HomeState){
+    private fun render(state: HomeState) {
         loading.isVisible = state is HomeState.Loading
-        binding.rv.isVisible = state is HomeState.Show
-        binding.textError.isVisible = state is HomeState.Error
-        when(state){
+        when (state) {
             is HomeState.Loading -> viewModel.getData(listCategory)
             is HomeState.Refreshing -> viewModel.getData(listCategory)
             is HomeState.Error -> {
@@ -64,13 +63,16 @@ class HomeFragment : Fragment() {
                 binding.swipeToRefresh.isRefreshing = false
             }
             is HomeState.Show -> {
+                Log.d(Constants.TAG, "state = HomeState.Show")
                 binding.swipeToRefresh.isRefreshing = false
                 adapter.submitList(state.lisCategory, state.mapListProducts)
             }
         }
+        binding.rv.isVisible = state is HomeState.Show
+        binding.textError.isVisible = state is HomeState.Error
     }
 
-    private fun createSwipeToRefresh(){
+    private fun createSwipeToRefresh() {
         binding.swipeToRefresh.setOnRefreshListener {
             binding.swipeToRefresh.isRefreshing = true
             viewModel.state.value = HomeState.Refreshing

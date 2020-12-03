@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.screens.settings.AccountFragment">
+    tools:context=".ui.screens.navDrawer.AccountFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,8 +92,8 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_gravity="bottom"
-        app:layoutDescription="@xml/account_info_motion_layout_scene"
-        >
+        android:background="@color/colorGrayExtraLight"
+        app:layoutDescription="@xml/account_info_motion_layout_scene">
 
         <FrameLayout
             android:id="@+id/container"
@@ -107,23 +107,28 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imageRv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
-            <include
-                android:id="@+id/loading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                layout="@layout/loading"/>
+            <com.github.rahatarmanahmed.cpv.CircularProgressView
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/progress_bar"
+                android:layout_height="@dimen/progress_bar"
+                app:cpv_animAutostart="true"
+                app:cpv_color="@color/colorBlack"
+                app:cpv_indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textNothing"
                 style="@style/text"
-                android:fontFamily="@font/roboto_italic"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/basicMargin"
-                android:visibility="gone"
+                android:fontFamily="@font/roboto_italic"
                 android:text="You haven't images"
-                android:layout_gravity="center"/>
+                android:visibility="gone" />
         </FrameLayout>
 
     </androidx.constraintlayout.motion.widget.MotionLayout>

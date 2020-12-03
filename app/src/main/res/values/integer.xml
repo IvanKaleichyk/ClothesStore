@@ -2,4 +2,5 @@
 <resources>
     <integer name="NameMaxLength">40</integer>
     <integer name="EmailMaxLength">40</integer>
+    <integer name="searchMaxLength">50</integer>
 </resources>

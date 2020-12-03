@@ -9,6 +9,7 @@
     <color name="colorPrimary">#9DD2D8</color>
     <color name="colorPrimaryDark">#00E5FF</color>
     <color name="colorGrayLight">#CCBCBC</color>
+    <color name="colorGrayExtraLight">#E4DEDE</color>
     <color name="colorGrayLight50">#80CCBCBC</color>
     <color name="colorBlackLight">#707070</color>
     <color name="colorRed">#FF0000</color>

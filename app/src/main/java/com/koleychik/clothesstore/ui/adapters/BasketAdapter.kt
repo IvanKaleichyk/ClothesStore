@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_rv_basket.view.*
 
 class BasketAdapter(
     private val activeModel: ActiveModel,
-    private val delete: (model: BasketModel) -> Unit
+    private val onCLickDelete: (model: BasketModel) -> Unit
 ) :
     RecyclerView.Adapter<BasketAdapter.MainViewHolder>() {
 
@@ -94,7 +94,7 @@ class BasketAdapter(
 
         private fun setOnClickListener(model: BasketModel) {
             itemView.delete.setOnClickListener {
-                delete(model)
+                onCLickDelete(model)
             }
             itemView.setOnClickListener {
                 activeModel.model = model

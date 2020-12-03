@@ -117,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.koleychik.clothesstore.ui.screens.settings.AccountFragment"
+        android:name="com.koleychik.clothesstore.ui.screens.navDrawer.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
 

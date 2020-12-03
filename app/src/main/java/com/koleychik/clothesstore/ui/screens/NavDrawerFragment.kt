@@ -21,8 +21,7 @@ import com.koleychik.clothesstore.databinding.NavHeaderMainBinding
 import com.koleychik.clothesstore.ui.screens.activities.MainActivity
 import com.koleychik.clothesstore.ui.screens.navDrawer.BasketFragment
 import com.koleychik.clothesstore.ui.screens.navDrawer.HomeFragment
-import com.koleychik.clothesstore.ui.screens.navDrawer.SettingsFragment
-import com.koleychik.clothesstore.ui.screens.settings.AccountFragment
+import com.koleychik.clothesstore.ui.screens.navDrawer.AccountFragment
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.MainViewModel
 import com.koleychik.clothesstore.ui.viewPager.ViewPagerAdapter
@@ -124,7 +123,7 @@ class NavDrawerFragment : Fragment() {
             R.id.homeFragment -> bindingContentMain.viewPager.currentItem = 0
             R.id.basketFragment -> bindingContentMain.viewPager.currentItem = 1
             R.id.accountFragment -> bindingContentMain.viewPager.currentItem = 2
-            R.id.support -> bindingContentMain.viewPager.currentItem = 3
+//            R.id.support -> bindingContentMain.viewPager.currentItem = 3
         }
 
         // Highlight the selected item has been done by NavigationView
@@ -164,7 +163,7 @@ class NavDrawerFragment : Fragment() {
     }
 
     private fun getListFragment() = listOf(
-        HomeFragment(), BasketFragment(), AccountFragment(),SettingsFragment()
+        HomeFragment(), BasketFragment(), AccountFragment()
     )
 
 }

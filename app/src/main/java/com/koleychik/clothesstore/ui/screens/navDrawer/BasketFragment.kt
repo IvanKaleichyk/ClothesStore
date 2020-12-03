@@ -37,6 +37,7 @@ class BasketFragment : Fragment() {
         binding = FragmentBasketBinding.inflate(layoutInflater)
         App.component.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[BasketViewModel::class.java]
+
         adapter = BasketAdapter(activeModel) {
             viewModel.delete(it)
             adapter.delete(it)
@@ -59,8 +60,6 @@ class BasketFragment : Fragment() {
 
     private fun render(state: BasketState){
         binding.progressBar.isVisible = state is BasketState.Loading
-        binding.rv.isVisible = state is BasketState.Show
-        binding.textNothing.isVisible = state is BasketState.Nothing
         when(state){
             is BasketState.Loading -> viewModel.getAll()
             is BasketState.Nothing -> binding.swipeToRefresh.isRefreshing = false
@@ -69,6 +68,8 @@ class BasketFragment : Fragment() {
                 binding.swipeToRefresh.isRefreshing = false
             }
         }
+        binding.rv.isVisible = state is BasketState.Show
+        binding.textNothing.isVisible = state is BasketState.Nothing
     }
 
     private fun swipeToRefresh(){

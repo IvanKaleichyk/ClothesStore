@@ -12,7 +12,7 @@ import com.koleychik.clothesstore.ui.screens.login.signUp.EmailAndNameFragment
 import com.koleychik.clothesstore.ui.screens.login.signUp.SignUpFragment
 import com.koleychik.clothesstore.ui.screens.navDrawer.BasketFragment
 import com.koleychik.clothesstore.ui.screens.navDrawer.HomeFragment
-import com.koleychik.clothesstore.ui.screens.settings.AccountFragment
+import com.koleychik.clothesstore.ui.screens.navDrawer.AccountFragment
 import dagger.Component
 import javax.inject.Singleton
 

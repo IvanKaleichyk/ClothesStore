@@ -1,12 +1,14 @@
-package com.koleychik.clothesstore.ui.screens.settings
+package com.koleychik.clothesstore.ui.screens.navDrawer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.koleychik.clothesstore.App
 import com.koleychik.clothesstore.R
@@ -17,8 +19,8 @@ import com.koleychik.clothesstore.ui.dialogs.DialogSetSomething
 import com.koleychik.clothesstore.ui.states.ImageRvState
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.AccountViewModel
+import com.koleychik.clothesstore.utils.constants.Constants
 import kotlinx.android.synthetic.main.fragment_account.view.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,8 +64,13 @@ class AccountFragment : Fragment() {
                     viewModel.stateImageRv.value = ImageRvState.Loading
                     viewModel.getAllImages()
                 }
-                it.isEmpty() -> viewModel.stateImageRv.value = ImageRvState.Nothing
+                it.isEmpty() ->{
+                    Log.d(Constants.TAG, "list is empty")
+                    viewModel.stateImageRv.value = ImageRvState.Nothing
+                }
                 else -> {
+                    Log.d(Constants.TAG, "image list size = ${it.size}")
+
                     adapter.submitList(it, object : OnCLickToItem {
                         override fun click(data: String) {
                             binding.img.load(data)
@@ -81,7 +88,7 @@ class AccountFragment : Fragment() {
 
     private fun render(state: ImageRvState) {
         binding.imageRv.isVisible = state is ImageRvState.Show
-        binding.root.loading.isVisible = state is ImageRvState.Loading
+        binding.progressBar.isVisible = state is ImageRvState.Loading
         binding.textNothing.isVisible = state is ImageRvState.Nothing
     }
 
@@ -90,23 +97,18 @@ class AccountFragment : Fragment() {
 
         binding.setName.setOnClickListener {
             dialog.setTitle(binding.setName.text.toString())
-//            CoroutineScope(Dispatchers.Main).launch {
-                dialog.setOnCLickListenerDialog {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        dialog.setName()
-                    }
-                    binding.name
+            dialog.setOnCLickListenerDialog {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    dialog.setName(binding.name)
                 }
-//            }
+            }
         }
         binding.setEmail.setOnClickListener {
             dialog.setTitle(binding.setEmail.text.toString())
-//            CoroutineScope(Dispatchers.IO).launch {
-                dialog.setOnCLickListenerDialog {
-                    CoroutineScope(Dispatchers.IO).launch {
+            dialog.setOnCLickListenerDialog {
+                lifecycleScope.launch(Dispatchers.IO) {
                     dialog.setEmail()
-                    }
-//                }
+                }
             }
         }
 //        TODO -> ON CLICK TO SET PASSWORD -> --------------------
