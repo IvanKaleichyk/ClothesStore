@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.transition.TransitionInflater
 import coil.load
 import com.koleychik.clothesstore.App
 import com.koleychik.clothesstore.R
@@ -110,6 +110,8 @@ class ProductFragment : Fragment() {
         val list = mutableListOf(binding.checkBox1, binding.checkBox2, binding.checkBox3)
         val listSelect = mutableListOf(viewModel.selectSize.value ?: binding.checkBox1.id)
         checkBoxStyle = CheckBoxStyle(list, listSelect, isSingle = true, canBeNothingSelect = false)
+        if (model is BasketModel) viewModel.selectSize.value =
+            checkBoxStyle.getCheckBoxByText((model as BasketModel).size)?.id
     }
 
     private fun tryGetArgs() {

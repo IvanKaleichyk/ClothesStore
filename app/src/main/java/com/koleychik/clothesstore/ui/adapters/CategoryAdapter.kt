@@ -1,5 +1,6 @@
 package com.koleychik.clothesstore.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,12 @@ import com.koleychik.clothesstore.databinding.ItemRvCategoryBinding
 import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.categories.Category
 import com.koleychik.clothesstore.utils.ActiveModel
+import com.koleychik.clothesstore.utils.adaptersHelpers.CategoryAdapterHelper
+import com.koleychik.clothesstore.utils.constants.Constants
 import kotlinx.android.synthetic.main.item_rv_category.view.*
 import javax.inject.Inject
 
-class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) :
+class CategoryAdapter @Inject constructor(private val onClick: (imageView: ImageView, model: ProductModel) -> Unit) :
     RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
 
     private val sortedList: SortedList<Category>
@@ -35,10 +38,14 @@ class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) 
             })
     }
 
-    fun submitList(newList: List<Category>, map: Map<Int, List<ProductModel>>) {
+    fun submitList(
+        newList: List<Category>,
+        map: Map<Int, List<ProductModel>>
+    ) {
         mainMap = map
         sortedList.clear()
-        sortedList.addAll(newList)
+        for (i in newList) helper.addToList(i)
+        Log.d(Constants.TAG, "adapter list was submited")
     }
 
     fun addToList(value: Category) {

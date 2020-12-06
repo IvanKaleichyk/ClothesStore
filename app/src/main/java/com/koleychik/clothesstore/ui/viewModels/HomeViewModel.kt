@@ -1,6 +1,5 @@
 package com.koleychik.clothesstore.ui.viewModels
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +7,6 @@ import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.categories.Category
 import com.koleychik.clothesstore.repositories.networkRepository.NetworkRepository
 import com.koleychik.clothesstore.ui.states.HomeState
-import com.koleychik.clothesstore.utils.constants.Constants
 import com.koleychik.clothesstore.utils.errorResponse
 import com.koleychik.clothesstore.utils.generateProductModel
 import kotlinx.coroutines.Dispatchers
@@ -20,13 +18,15 @@ class HomeViewModel @Inject constructor(private val repository: NetworkRepositor
 
     val state = MutableLiveData<HomeState>(HomeState.Loading)
 
-    fun getData(listCategory: List<Category>) = viewModelScope.launch(Dispatchers.IO) {
-        Log.d(Constants.TAG, "startGetData")
+    fun getData(
+        listCategory: List<Category>
+    ) = viewModelScope.launch(Dispatchers.IO)
+    {
         val map = mutableMapOf<Int, List<ProductModel>>()
 
         for (i in listCategory) {
             val optionsString = mapOf("query" to i.getSearchName())
-            val optionsInt = mapOf("per_page" to 20)
+            val optionsInt = mapOf("per_page" to 30)
             val response = repository.search(optionsString, optionsInt)
             if (response.isSuccessful) {
                 val networkRequests = response.body()

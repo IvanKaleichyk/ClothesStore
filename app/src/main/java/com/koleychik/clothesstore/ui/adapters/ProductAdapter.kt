@@ -73,7 +73,8 @@ class ProductAdapter @Inject constructor(private val activeModel: ActiveModel) :
         fun bind(model: ProductModel) {
             itemView.description.text = model.photo.description
             itemView.fullPrice.text = getCurrencyString(model.price)
-            itemView.img.load(model.photo.urls?.regular)
+            itemView.img.load(model.photo.urls.regular)
+            itemView.img.transitionName = model.transitionName
             if (model.sale != null) {
 //              cross out
                 itemView.fullPrice.paintFlags =

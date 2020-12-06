@@ -13,14 +13,16 @@ fun generateBasketModel(
     size: String,
     isInBasket: Boolean = productModel.isInBasket
 ) = BasketModel(
-    productModel.photo,
-    productModel.categoryId,
-    productModel.price,
-    productModel.salePrice,
-    isInBasket,
-    productModel.isInFavorites,
-    size,
-    productModel.sale
+    id = generateId(),
+    photo = productModel.photo,
+    categoryId = productModel.categoryId,
+    price = productModel.price,
+    salePrice = productModel.salePrice,
+    isInBasket = isInBasket,
+    isInFavorites = productModel.isInFavorites,
+    transitionName = generateTransitionName(productModel.photo.urls.regular),
+    size = size,
+    sale = productModel.sale
 )
 
 fun generateHistoryModel(text: String, categoryId: Int, minPrice: Int, maxPrice: Int) =
