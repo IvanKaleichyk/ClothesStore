@@ -20,7 +20,8 @@ import com.koleychik.clothesstore.ui.states.ImageRvState
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.AccountViewModel
 import com.koleychik.clothesstore.utils.constants.Constants
-import kotlinx.android.synthetic.main.fragment_account.view.*
+import com.koleychik.clothesstore.utils.constants.InfoConstants
+import com.koleychik.clothesstore.utils.navigation.navigation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -111,7 +112,13 @@ class AccountFragment : Fragment() {
                 }
             }
         }
-//        TODO -> ON CLICK TO SET PASSWORD -> --------------------
+        binding.setPassword.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(InfoConstants.GET_TEXT_RES, R.string.text_to_set_password)
+            bundle.putInt(InfoConstants.GET_TITLE_RES, R.string.checkEmail)
+            bundle.putInt(InfoConstants.GET_ACTION_ID, -1)
+            navigation(binding.root, R.id.action_accountFragment_to_infoFragment, bundle)
+        }
     }
 
     private fun createRv() {

@@ -13,6 +13,7 @@ fun generateBasketModel(
     size: String,
     isInBasket: Boolean = productModel.isInBasket
 ) = BasketModel(
+    generateId(),
     productModel.photo,
     productModel.categoryId,
     productModel.price,
@@ -20,6 +21,7 @@ fun generateBasketModel(
     isInBasket,
     productModel.isInFavorites,
     size,
+    generateTransitionName(productModel.photo.urls.regular),
     productModel.sale
 )
 
@@ -32,12 +34,14 @@ fun generateProductModel(
     minPrice: Int = Constants.priceMin,
     maxPrice: Int = Constants.priceMax
 ) = ProductModel(
+    generateId(),
     photo = photo,
     categoryId = categoryId,
     price = generatePrice(minPrice, maxPrice),
     salePrice = 0,
     isInBasket = false,
-    isInFavorites = false
+    isInFavorites = false,
+    generateTransitionName(photo.urls.regular)
 )
 
 fun generateProductModel(
@@ -67,4 +71,15 @@ fun generateSalePrice(productModel: ProductModel) {
 fun minusPercent(valueFull: Int, percent: Int): Int {
     val valueDecimal = BigDecimal(valueFull + percent)
     return valueDecimal.divide(BigDecimal(100), 0).toInt()
+}
+
+fun generateTransitionName(url: String) = url + "_" + Random().nextInt()
+
+fun generateId(): Int {
+    var res = 0
+    val random = Random()
+    for (i in (0..5)) {
+        res += random.nextInt(32767)
+    }
+    return res
 }

@@ -7,10 +7,8 @@ import com.koleychik.clothesstore.models.HistoryModel
 import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.networkModels.Photo
 import com.koleychik.clothesstore.models.networkModels.Urls
+import com.koleychik.clothesstore.utils.*
 import com.koleychik.clothesstore.utils.constants.Constants
-import com.koleychik.clothesstore.utils.generateHistoryModel
-import com.koleychik.clothesstore.utils.generatePrice
-import com.koleychik.clothesstore.utils.getAll
 import java.lang.StringBuilder
 import java.util.*
 
@@ -53,6 +51,7 @@ fun listBasketModels(): List<BasketModel> {
     val list = mutableListOf<BasketModel>()
     for (i in listProducts) list.add(
         BasketModel(
+            generateId(),
             i.photo,
             i.categoryId,
             i.price,
@@ -60,6 +59,7 @@ fun listBasketModels(): List<BasketModel> {
             i.isInBasket,
             i.isInFavorites,
             "L",
+            generateTransitionName(i.photo.urls.regular),
             i.sale
         )
     )
@@ -73,12 +73,14 @@ fun listProductModels(): List<ProductModel> {
     val listInBoolean = listIsInBasket()
     for (i in photos.indices) list.add(
         ProductModel(
+            generateId(),
             photos[i],
             i,
             generatePrice(),
             saleList[i],
             listInBoolean[i],
             false,
+            generateTransitionName(photos[i].urls.regular),
             saleList[i]
         )
     )
@@ -123,5 +125,4 @@ private fun salePrices(): List<Int> {
     }
     return list
 }
-
 private fun generateUrls(url: String) = Urls(url, url, url, url, url)

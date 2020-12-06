@@ -1,0 +1,1343 @@
+Index: app/src/main/res/drawable-mdpi/bg_btn_basic_radius.xml
+===================================================================
+--- app/src/main/res/drawable-mdpi/bg_btn_basic_radius.xml	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/res/drawable-mdpi/bg_btn_basic_radius.xml	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
+@@ -1,25 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+-
+-    <item
+-        android:state_pressed="true">
+-        <shape>
+-            <corners android:radius="@dimen/basicRadius" />
+-            <solid android:color="@color/colorPrimaryDark" />
+-            <stroke
+-                android:width="@dimen/stroke"
+-                android:color="@color/colorBlack" />
+-        </shape>
+-    </item>
+-    <item
+-        android:state_pressed="false">
+-        <shape>
+-            <corners android:radius="@dimen/basicRadius" />
+-            <solid android:color="@color/colorPrimary" />
+-            <stroke
+-                android:width="@dimen/stroke"
+-                android:color="@color/colorBlack" />
+-        </shape>
+-    </item>
+-
+-</selector>
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/di/modules/AdapterModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/di/modules/AdapterModel.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/di/modules/AdapterModel.kt	(date 1607117915305)
+@@ -15,11 +15,11 @@
+     @Provides
+     fun provideHistoryAdapter() = HistoryAdapter()
+ 
+-    @Provides
+-    fun provideProductAdapter(activeModel: ActiveModel) = ProductAdapter(activeModel)
+-
+-    @Provides
+-    fun provideCategoryAdapter(activeModel: ActiveModel) = CategoryAdapter(activeModel)
++//    @Provides
++//    fun provideProductAdapter(activeModel: ActiveModel) = ProductAdapter(activeModel)
++//
++//    @Provides
++//    fun provideCategoryAdapter(activeModel: ActiveModel) = CategoryAdapter(activeModel)
+ 
+     @Provides
+     fun provideAdapterProducts(activeModel: ActiveModel) = ProductPagingAdapter(activeModel)
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/res/values/strings.xml	(date 1607101238018)
+@@ -67,6 +67,7 @@
+     <string name="forgotPassword">Forgot password</string>
+ 
+     <string name="verifyEmail">You must confirm your email!!!</string>
++    <string name="text_to_set_password">Check your email to set password. If you change your mind to change your password just ignore this message</string>
+     <string name="checkEmail">Check your email</string>
+     <string name="sign_up">Sign Up</string>
+     <string name="set_password">Set Password</string>
+Index: app/src/main/java/com/koleychik/clothesstore/utils/constants/ProductConstants.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/constants/ProductConstants.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/utils/constants/ProductConstants.kt	(date 1607255654657)
+@@ -5,4 +5,5 @@
+     val comeFromBasket = "comeFromBasket"
+     val comeFromFavorites = "comeFromFavorites"
+     val comeFromAnother = "comeFromAnother"
++    val model = "mainModel"
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/models/ProductModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/models/ProductModel.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/models/ProductModel.kt	(date 1607256749933)
+@@ -1,21 +1,25 @@
+ package com.koleychik.clothesstore.models
+ 
++import android.os.Parcelable
+ import androidx.room.Embedded
+ import androidx.room.Entity
+ import androidx.room.PrimaryKey
+ import com.koleychik.clothesstore.models.networkModels.Photo
++import kotlinx.android.parcel.Parcelize
++import kotlinx.android.parcel.RawValue
+ 
+ @Entity
++@Parcelize
+ open class ProductModel(
++    @PrimaryKey
++    val id: Int,
+     @Embedded
+-    val photo: Photo,
++    val photo: @RawValue Photo,
+     val categoryId: Int,
+     val price: Int,
+     var salePrice: Int,
+     var isInBasket: Boolean,
+     val isInFavorites: Boolean,
++    val transitionName : String,
+     var sale : Int? = null
+-) {
+-    @PrimaryKey(autoGenerate = true)
+-    var id = 0
+-}
+\ No newline at end of file
++): Parcelable
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/login/signUp/SignUpFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/login/signUp/SignUpFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/login/signUp/SignUpFragment.kt	(date 1607103526257)
+@@ -17,7 +17,7 @@
+ import com.koleychik.clothesstore.ui.viewModels.SignViewModel
+ import com.koleychik.clothesstore.utils.constants.InfoConstants
+ import com.koleychik.clothesstore.utils.constants.LogoConstant
+-import com.koleychik.clothesstore.utils.navigation
++import com.koleychik.clothesstore.utils.navigation.navigation
+ import kotlinx.android.synthetic.main.fragment_sign.view.*
+ import javax.inject.Inject
+ 
+Index: app/src/main/java/com/koleychik/clothesstore/models/BasketModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/models/BasketModel.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/models/BasketModel.kt	(date 1607257100243)
+@@ -1,16 +1,33 @@
+ package com.koleychik.clothesstore.models
+ 
+ import androidx.room.Entity
++import androidx.room.PrimaryKey
+ import com.koleychik.clothesstore.models.networkModels.Photo
++import kotlinx.android.parcel.Parcelize
+ 
+ @Entity
+ class BasketModel(
++    id: Int,
+     photo: Photo,
+     categoryId: Int,
+     price: Int,
+     salePrice: Int,
+     isInBasket: Boolean,
+     isInFavorites: Boolean,
+-    val size : String,
++    transitionName: String,
++    val size: String,
+     sale: Int? = null,
+-) : ProductModel(photo, categoryId, price, salePrice, isInBasket, isInFavorites, sale)
+\ No newline at end of file
++) : ProductModel(
++    id,
++    photo,
++    categoryId,
++    price,
++    salePrice,
++    isInBasket,
++    isInFavorites,
++    transitionName,
++    sale
++) {
++    @PrimaryKey(autoGenerate = true)
++    var pk: Int = 0
++}
+Index: app/src/main/res/drawable/bg_btn_basic_radius.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/bg_btn_basic_radius.xml	(date 1606918797035)
++++ app/src/main/res/drawable/bg_btn_basic_radius.xml	(date 1606918797035)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++
++    <item
++        android:state_pressed="true">
++        <shape>
++            <corners android:radius="@dimen/basicRadius" />
++            <solid android:color="@color/colorPrimaryDark" />
++            <stroke
++                android:width="@dimen/stroke"
++                android:color="@color/colorBlack" />
++        </shape>
++    </item>
++    <item
++        android:state_pressed="false">
++        <shape>
++            <corners android:radius="@dimen/basicRadius" />
++            <solid android:color="@color/colorPrimary" />
++            <stroke
++                android:width="@dimen/stroke"
++                android:color="@color/colorBlack" />
++        </shape>
++    </item>
++
++</selector>
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/utils/adaptersHelpers/CategoryAdapterHelper.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/adaptersHelpers/CategoryAdapterHelper.kt	(date 1607099679709)
++++ app/src/main/java/com/koleychik/clothesstore/utils/adaptersHelpers/CategoryAdapterHelper.kt	(date 1607099679709)
+@@ -0,0 +1,40 @@
++package com.koleychik.clothesstore.utils.adaptersHelpers
++
++import androidx.recyclerview.widget.SortedList
++import com.koleychik.clothesstore.models.categories.Category
++import javax.inject.Inject
++
++class CategoryAdapterHelper @Inject constructor(
++    private val sortedList: SortedList<Category>,
++    private val listCategoryId: MutableList<Int>
++) {
++
++    private fun createSetFromListCategory(newList: List<Category>): Set<Int> {
++        val setRes = mutableSetOf<Int>()
++        for (i in newList) setRes.add(i.getId())
++        return setRes
++    }
++
++    fun removeUnusedItems(newList: List<Category>) {
++        val setIdNewList = createSetFromListCategory(newList)
++        for (i in listCategoryId) if (!setIdNewList.contains(i)) remove(i)
++    }
++
++    private fun remove(modelId: Int) {
++        var indexSelectView = -1
++        for (i in (0 until sortedList.size()))
++            if (sortedList[i].getId() == modelId) {
++                indexSelectView = i
++                break
++            }
++        if (indexSelectView != -1) sortedList.removeItemAt(indexSelectView)
++        listCategoryId.remove(modelId)
++    }
++
++    fun addToList(value: Category) {
++        sortedList.add(value)
++        listCategoryId.add(value.getId())
++    }
++
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/login/forgotPassword/EmailFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/login/forgotPassword/EmailFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/login/forgotPassword/EmailFragment.kt	(date 1607103526363)
+@@ -14,7 +14,7 @@
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.ElementLoginViewModel
+ import com.koleychik.clothesstore.utils.constants.InfoConstants
+-import com.koleychik.clothesstore.utils.navigation
++import com.koleychik.clothesstore.utils.navigation.navigation
+ import kotlinx.android.synthetic.main.fragment_element_login.view.*
+ import javax.inject.Inject
+ 
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/ProductFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/ProductFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/ProductFragment.kt	(date 1607259888943)
+@@ -2,11 +2,14 @@
+ 
+ import android.graphics.Paint
+ import android.os.Bundle
++import android.transition.TransitionInflater
+ import androidx.fragment.app.Fragment
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+ import android.widget.TextView
++import androidx.core.view.doOnNextLayout
++import androidx.core.view.doOnPreDraw
+ import androidx.lifecycle.ViewModelProvider
+ import androidx.lifecycle.lifecycleScope
+ import androidx.navigation.Navigation
+@@ -14,10 +17,13 @@
+ import com.koleychik.clothesstore.App
+ import com.koleychik.clothesstore.R
+ import com.koleychik.clothesstore.databinding.FragmentProductBinding
++import com.koleychik.clothesstore.models.ProductModel
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.ProductViewModel
+ import com.koleychik.clothesstore.utils.*
++import com.koleychik.clothesstore.utils.constants.Constants
+ import com.koleychik.clothesstore.utils.constants.ProductConstants
++import com.koleychik.clothesstore.utils.navigation.SharedElementNavigation
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.launch
+ import kotlinx.coroutines.withContext
+@@ -31,12 +37,24 @@
+ 
+     private lateinit var checkBoxStyle: CheckBoxStyle
+ 
+-    @Inject
+-    lateinit var activeModel: ActiveModel
++    private val sharedElementNavigation = SharedElementNavigation(this)
++
++//    @Inject
++//    lateinit var activeModel: ActiveModel
++
++    private lateinit var model: ProductModel
+ 
+     @Inject
+     lateinit var viewModelFactory: MainViewModelFactory
+ 
++    val args by lazy {
++        ProductFragmentArgs.fromBundle(requireArguments())
++    }
++
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++    }
++
+     override fun onCreateView(
+         inflater: LayoutInflater, container: ViewGroup?,
+         savedInstanceState: Bundle?
+@@ -45,13 +63,15 @@
+         App.component.inject(this)
+         viewModel = ViewModelProvider(this, viewModelFactory)[ProductViewModel::class.java]
+ 
++//        sharedElementNavigation.prepareSharedElementTransition(binding.root)
++
+         tryGetArgs()
+-        lifecycleScope.launch {
+-            viewModel.checkValueInDb(activeModel.model!!.id)
+-            withContext(Dispatchers.Main){
+-                setUI()
+-            }
+-        }
++//        lifecycleScope.launch {
++//            viewModel.checkValueInDb(model.id)
++//            withContext(Dispatchers.Main) {
++//                setUI()
++//            }
++//        }
+ 
+         createCheckBoxStyle()
+         createOnClickListener()
+@@ -60,16 +80,28 @@
+         return binding.root
+     }
+ 
+-    private fun setUI(){
+-        val model = activeModel.model ?: return
++    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
++        super.onViewCreated(view, savedInstanceState)
++        val animation =
++            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
++        sharedElementEnterTransition = animation
++        sharedElementReturnTransition = animation
++        binding.img.transitionName = args.transitionName
++        postponeEnterTransition()
++        view.doOnPreDraw { startPostponedEnterTransition() }
++        setUI()
++    }
++
++    private fun setUI() {
++//        val model = activeModel.model ?: return
+         binding.textCategory.setText(getCategoryById(model.categoryId).getResourceName())
+         binding.fullPrice.text = getCurrencyString(model.price)
+         binding.img.load(model.photo.urls.regular)
+         if (model.sale == null) {
+             binding.salePrice.visibility = View.GONE
+-        }
+-        else{
+-            binding.fullPrice.paintFlags = binding.fullPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
++        } else {
++            binding.fullPrice.paintFlags =
++                binding.fullPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+             binding.salePrice.text = getCurrencyString(model.sale!!)
+         }
+         binding.description.text = model.photo.description
+@@ -86,17 +118,15 @@
+ //            TODO IF IN BASKET THAN SET BTN BG AND TEXT, setOnCLick listener to go to buy
+             } else {
+                 binding.btnAdd.setOnClickListener {
+-                    if (activeModel.model != null) {
+-                        viewModel.insertInBasket(
+-                            generateBasketModel(
+-                                activeModel.model!!,
+-                                checkBoxStyle.getChecked()[0].text.toString(),
+-                                true
+-                            )
+-                        )
+-                    }
++                    viewModel.insertInBasket(
++                        generateBasketModel(
++                            model,
++                            checkBoxStyle.getChecked()[0].text.toString(),
++                            true
++                        )
++                    )
+                     viewModel.isInBasket.value = true
+-                    activeModel.model?.isInBasket = true
++                    model.isInBasket = true
+                 }
+             }
+         })
+@@ -113,8 +143,10 @@
+     }
+ 
+     private fun tryGetArgs() {
+-        viewModel.isInBasket.value =
+-            requireArguments().getBoolean(ProductConstants.comeFromBasket, false)
++        viewModel.isInBasket.value = args.isFromBasket
++        model = args.productModel
++//        viewModel.isInBasket.value = requireArguments().getBoolean(ProductConstants.comeFromBasket)
++//        model = requireArguments().getParcelable(ProductConstants.model)!!
+     }
+ 
+     private fun createOnClickListener() {
+@@ -132,6 +164,6 @@
+ 
+     override fun onDestroy() {
+         super.onDestroy()
+-        activeModel.model = null
++//        activeModel.model = null
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/SearchFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/SearchFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/SearchFragment.kt	(date 1607103526292)
+@@ -24,6 +24,7 @@
+ import com.koleychik.clothesstore.ui.viewModels.SearchViewModel
+ import com.koleychik.clothesstore.utils.*
+ import com.koleychik.clothesstore.utils.constants.Constants
++import com.koleychik.clothesstore.utils.navigation.startSearching
+ import java.util.*
+ import javax.inject.Inject
+ 
+Index: app/src/main/java/com/koleychik/clothesstore/utils/navigation/SharedElementNavigationMain.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/navigation/SharedElementNavigationMain.kt	(date 1607257062913)
++++ app/src/main/java/com/koleychik/clothesstore/utils/navigation/SharedElementNavigationMain.kt	(date 1607257062913)
+@@ -0,0 +1,36 @@
++package com.koleychik.clothesstore.utils.navigation
++
++import android.os.Bundle
++import android.widget.ImageView
++import androidx.fragment.app.Fragment
++import androidx.navigation.NavDirections
++import androidx.navigation.Navigation
++import androidx.navigation.fragment.FragmentNavigatorExtras
++import com.koleychik.clothesstore.models.ProductModel
++import com.koleychik.clothesstore.ui.screens.NavDrawerFragmentDirections
++
++class SharedElementNavigationMain(fragment: Fragment) {
++
++    fun goToProductFragment(imageView: ImageView, navigationId: Int, bundle: Bundle?) {
++        val extras = FragmentNavigatorExtras(imageView to "transitionElement")
++
++        Navigation.findNavController(imageView).navigate(navigationId, bundle, null, extras)
++    }
++
++    fun goToProductFragmentFromNavDrawer(imageView: ImageView, model: ProductModel) {
++
++        val direction: NavDirections =
++            NavDrawerFragmentDirections.actionNavDrawerFragmentToProductFragment(
++                model.transitionName,
++                false,
++                model
++            )
++
++        val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
++
++//        Navigation.findNavController(imageView).navigate(navigationId, bundle, null, extras)
++        Navigation.findNavController(imageView).navigate(direction, extras)
++    }
++
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/navDrawer/HomeFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/navDrawer/HomeFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/navDrawer/HomeFragment.kt	(date 1607258198447)
+@@ -8,14 +8,19 @@
+ import android.view.ViewGroup
+ import androidx.core.view.isVisible
+ import androidx.lifecycle.ViewModelProvider
++import androidx.navigation.Navigation
+ import com.koleychik.clothesstore.App
++import com.koleychik.clothesstore.R
+ import com.koleychik.clothesstore.databinding.FragmentHomeBinding
+ import com.koleychik.clothesstore.ui.adapters.CategoryAdapter
+ import com.koleychik.clothesstore.ui.states.HomeState
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.HomeViewModel
+ import com.koleychik.clothesstore.utils.constants.Constants
++import com.koleychik.clothesstore.utils.constants.ProductConstants
+ import com.koleychik.clothesstore.utils.listCategory
++import com.koleychik.clothesstore.utils.navigation.SharedElementNavigation
++import com.koleychik.clothesstore.utils.navigation.SharedElementNavigationMain
+ import kotlinx.android.synthetic.main.fragment_home.*
+ import javax.inject.Inject
+ 
+@@ -25,8 +30,29 @@
+ 
+     private lateinit var viewModel: HomeViewModel
+ 
+-    @Inject
+-    lateinit var adapter: CategoryAdapter
++    private val sharedElementNavigation by lazy {
++        SharedElementNavigation(this)
++    }
++
++    private val sharedElementNavigationMain by lazy {
++        SharedElementNavigationMain(this)
++    }
++
++    val adapter: CategoryAdapter by lazy {
++        CategoryAdapter { img, model ->
++            sharedElementNavigationMain.goToProductFragmentFromNavDrawer(img, model)
++//            Log.d(Constants.TAG, "click to adapter")
++//            sharedElementNavigation.goTo(Navigation.findNavController(binding.root), img, model)
++//            val bundle = Bundle()
++//            bundle.putBoolean(ProductConstants.comeFromBasket, false)
++//            bundle.putParcelable(ProductConstants.model, model)
++//            SharedElementNavigationMain(this).goToProductFragment(
++//                img,
++//                R.id.action_navDrawerFragment_to_productFragment,
++//                bundle
++//            )
++        }
++    }
+ 
+     @Inject
+     lateinit var viewModelFactory: MainViewModelFactory
+@@ -39,6 +65,8 @@
+         App.component.inject(this)
+         viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+ 
++        sharedElementNavigation.prepareTransitions()
++
+         subscribe()
+         createRv()
+         createSwipeToRefresh()
+@@ -53,11 +81,16 @@
+     private fun createRv() {
+         binding.rv.adapter = adapter
+     }
++
+     private fun render(state: HomeState) {
+         loading.isVisible = state is HomeState.Loading
+         when (state) {
+-            is HomeState.Loading -> viewModel.getData(listCategory)
+-            is HomeState.Refreshing -> viewModel.getData(listCategory)
++            is HomeState.Loading -> viewModel.getData(listCategory) { newList, map ->
++                viewModel.state.value = HomeState.Show(newList, map)
++            }
++            is HomeState.Refreshing -> viewModel.getData(listCategory) { newList, map ->
++                adapter.updateList(newList, map)
++            }
+             is HomeState.Error -> {
+                 binding.textError.setText(state.textRes)
+                 binding.swipeToRefresh.isRefreshing = false
+@@ -78,5 +111,5 @@
+             viewModel.state.value = HomeState.Refreshing
+         }
+     }
++}
+ 
+-}
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/activities/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/activities/MainActivity.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/activities/MainActivity.kt	(date 1607253539645)
+@@ -1,14 +1,11 @@
+ package com.koleychik.clothesstore.ui.screens.activities
+ 
+ import android.os.Bundle
+-import androidx.appcompat.app.ActionBarDrawerToggle
+ import androidx.appcompat.app.AppCompatActivity
+ import androidx.navigation.NavController
+ import androidx.navigation.findNavController
+-import androidx.navigation.ui.AppBarConfiguration
+ import com.koleychik.clothesstore.R
+ import com.koleychik.clothesstore.databinding.ActivityMainBinding
+-import com.koleychik.clothesstore.databinding.AppBarMainBinding
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.MainViewModel
+ import javax.inject.Inject
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/login/InfoFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/login/InfoFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/login/InfoFragment.kt	(date 1607103526411)
+@@ -5,9 +5,10 @@
+ import android.view.View
+ import android.view.ViewGroup
+ import androidx.fragment.app.Fragment
++import androidx.navigation.Navigation
+ import com.koleychik.clothesstore.databinding.FragmentInfoBinding
+ import com.koleychik.clothesstore.utils.constants.InfoConstants
+-import com.koleychik.clothesstore.utils.navigation
++import com.koleychik.clothesstore.utils.navigation.navigation
+ 
+ class InfoFragment: Fragment() {
+ 
+@@ -27,7 +28,8 @@
+         tryGetArgs()
+         setUI()
+         binding.btn.setOnClickListener {
+-            navigation(binding.root, actionId)
++            if (actionId == -1) Navigation.findNavController(binding.root).popBackStack()
++            else navigation(binding.root, actionId)
+         }
+ 
+         binding.textInfo.setText(textId)
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/build.gradle	(date 1607259195811)
+@@ -4,6 +4,7 @@
+     id 'kotlin-kapt'
+     id 'kotlin-android-extensions'
+     id 'com.google.gms.google-services'
++    id 'androidx.navigation.safeargs'
+ //    id 'com.google.gms.google-services'
+ }
+ 
+@@ -58,6 +59,7 @@
+     implementation 'androidx.appcompat:appcompat:1.2.0'
+     implementation 'com.google.android.material:material:1.2.1'
+     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
++    implementation 'androidx.fragment:fragment-ktx:1.3.0-beta02'
+ 
+     implementation 'com.google.firebase:firebase-auth:20.0.1'
+     implementation 'com.google.firebase:firebase-database:19.5.1'
+Index: app/src/main/java/com/koleychik/clothesstore/utils/navigation/SharedElementNavigation.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/navigation/SharedElementNavigation.kt	(date 1607253748476)
++++ app/src/main/java/com/koleychik/clothesstore/utils/navigation/SharedElementNavigation.kt	(date 1607253748476)
+@@ -0,0 +1,74 @@
++package com.koleychik.clothesstore.utils.navigation
++
++import android.util.Log
++import android.view.View
++import android.widget.ImageView
++import androidx.fragment.app.Fragment
++import androidx.navigation.NavController
++import androidx.navigation.fragment.FragmentNavigatorExtras
++import com.koleychik.clothesstore.R
++import androidx.transition.*
++import com.koleychik.clothesstore.models.ProductModel
++import com.koleychik.clothesstore.ui.screens.NavDrawerFragmentDirections
++import com.koleychik.clothesstore.ui.screens.navDrawer.BasketFragment
++import com.koleychik.clothesstore.utils.constants.Constants
++
++class SharedElementNavigation(
++    private val fragment: Fragment
++) {
++
++    fun prepareTransitions() {
++        fragment.exitTransition =
++            Fade(Fade.MODE_OUT)
++                .apply {
++                    duration = 500
++                }
++
++        fragment.reenterTransition =
++            Fade(Fade.MODE_IN)
++                .apply {
++                    duration = 500
++                }
++        fragment.postponeEnterTransition()
++    }
++
++    fun prepareSharedElementTransition(view: View) {
++
++        setUpSharedElementTransition(view)
++        fragment.postponeEnterTransition()
++    }
++
++    fun goTo(navController: NavController, imageView: ImageView, productModel: ProductModel) {
++
++        val direction = NavDrawerFragmentDirections.actionNavDrawerFragmentToProductFragment(
++                imageView.transitionName,
++                fragment::class.simpleName == BasketFragment::class.simpleName,
++                productModel
++            )
++
++        val extras = FragmentNavigatorExtras(
++            imageView to imageView.transitionName
++//            binding.tvMagazineTitle to binding.tvMagazineTitle.transitionName
++        )
++
++        Log.d(Constants.TAG, "navController.currentDestination = ${navController.currentDestination}")
++        Log.d(Constants.TAG, "navController.currentDestination.id = ${navController.currentDestination?.id}")
++        Log.d(Constants.TAG, " R.id.navDrawerFragment = ${ R.id.navDrawerFragment}")
++//        if (navController.currentDestination?.id == R.id.navDrawerFragment)
++        navController.navigate(direction, extras)
++    }
++
++    private fun setUpSharedElementTransition(view: View) {
++        fragment.sharedElementReturnTransition =
++            TransitionInflater.from(fragment.context).inflateTransition(android.R.transition.move)
++
++        val moveTransition =
++            TransitionInflater.from(fragment.context).inflateTransition(android.R.transition.move)
++                .apply {
++                    duration = 500
++                }
++
++        fragment.sharedElementEnterTransition = moveTransition
++    }
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/adapters/CategoryAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/adapters/CategoryAdapter.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/adapters/CategoryAdapter.kt	(date 1607117859096)
+@@ -3,47 +3,56 @@
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import android.widget.ImageView
+ import androidx.recyclerview.widget.RecyclerView
+ import androidx.recyclerview.widget.SortedList
+ import androidx.recyclerview.widget.SortedListAdapterCallback
+ import com.koleychik.clothesstore.R
+-import com.koleychik.clothesstore.databinding.ItemRvCategoryBinding
+ import com.koleychik.clothesstore.models.ProductModel
+ import com.koleychik.clothesstore.models.categories.Category
+ import com.koleychik.clothesstore.utils.ActiveModel
++import com.koleychik.clothesstore.utils.adaptersHelpers.CategoryAdapterHelper
+ import kotlinx.android.synthetic.main.item_rv_category.view.*
+ import javax.inject.Inject
+ 
+-class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) :
++class CategoryAdapter @Inject constructor(private val onClick: (imageView: ImageView, model : ProductModel) -> Unit) :
+     RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
+ 
+-    private val sortedList: SortedList<Category>
+-
+-    var mainMap = mapOf<Int, List<ProductModel>>()
+-
+-    init {
+-        sortedList = SortedList(
+-            Category::class.java,
+-            object : SortedListAdapterCallback<Category>(this) {
+-                override fun compare(o1: Category, o2: Category): Int = 1
++    private val sortedList = SortedList(Category::class.java,
++        object : SortedListAdapterCallback<Category>(this) {
++            override fun compare(o1: Category, o2: Category): Int = 1
+ 
+-                override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean =
+-                    oldItem.getId() == newItem.getId()
++            override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean =
++                oldItem.getId() == newItem.getId()
+ 
+-                override fun areItemsTheSame(item1: Category, item2: Category): Boolean =
+-                    item1 == item2
+-            })
++            override fun areItemsTheSame(item1: Category, item2: Category): Boolean =
++                item1 == item2
++        })
++
++    private val listCategoryId = mutableListOf<Int>()
++
++    private val helper: CategoryAdapterHelper by lazy {
++        CategoryAdapterHelper(sortedList, listCategoryId = listCategoryId)
++    }
++
++    var mainMap = mapOf<Int, List<ProductModel>>()
++
++    init {
++        sortedList
+     }
+ 
+     fun submitList(newList: List<Category>, map: Map<Int, List<ProductModel>>) {
+         mainMap = map
+         sortedList.clear()
+-        sortedList.addAll(newList)
++        for (i in newList) helper.addToList(i)
+     }
+ 
+-    fun addToList(value: Category) {
+-        sortedList.add(value)
++    fun updateList(newList: List<Category>, map: Map<Int, List<ProductModel>>) {
++        mainMap = map
++        for (i in newList) if (!listCategoryId.contains(i.getId())) helper.addToList(i)
++        helper.removeUnusedItems(newList)
+     }
++
+ 
+     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+         val layoutInflater = LayoutInflater.from(parent.context)
+@@ -61,7 +70,7 @@
+ 
+     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+ 
+-        val adapter = ProductAdapter(activeModel)
++        val adapter = ProductAdapter(onClick)
+ 
+         fun bind(model: Category) {
+             itemView.title.setText(model.getResourceName())
+@@ -74,7 +83,8 @@
+             val list = mainMap[model.getId()]
+             if (list == null) itemView.visibility = View.GONE
+             else {
+-                adapter.submitList(list)
++                if (adapter.isSortedListEmpty()) adapter.submitList(list)
++                else (adapter.updateList(list))
+                 itemView.visibility = View.VISIBLE
+             }
+         }
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/login/SignInFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/login/SignInFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/login/SignInFragment.kt	(date 1607103526318)
+@@ -15,7 +15,7 @@
+ import com.koleychik.clothesstore.ui.states.SignState
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.SignViewModel
+-import com.koleychik.clothesstore.utils.navigation
++import com.koleychik.clothesstore.utils.navigation.navigation
+ import kotlinx.android.synthetic.main.fragment_sign.view.*
+ import javax.inject.Inject
+ 
+Index: app/src/main/res/navigation/main_graph.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/navigation/main_graph.xml	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/res/navigation/main_graph.xml	(date 1607119044790)
+@@ -48,7 +48,17 @@
+         android:id="@+id/productFragment"
+         android:name="com.koleychik.clothesstore.ui.screens.ProductFragment"
+         android:label="fragment_product"
+-        tools:layout="@layout/fragment_product" />
++        tools:layout="@layout/fragment_product">
++        <argument
++            android:name="transitionName"
++            app:argType="string"/>
++        <argument
++            android:name="isFromBasket"
++            app:argType="boolean"/>
++        <argument
++            android:name="productModel"
++            app:argType="com.koleychik.clothesstore.models.ProductModel" />
++    </fragment>
+     <fragment
+         android:id="@+id/welcomeFragment"
+         android:name="com.koleychik.clothesstore.ui.screens.login.WelcomeFragment"
+@@ -119,6 +129,10 @@
+         android:id="@+id/accountFragment"
+         android:name="com.koleychik.clothesstore.ui.screens.navDrawer.AccountFragment"
+         android:label="fragment_account"
+-        tools:layout="@layout/fragment_account" />
++        tools:layout="@layout/fragment_account" >
++        <action
++            android:id="@+id/action_accountFragment_to_infoFragment"
++            app:destination="@id/infoFragment" />
++    </fragment>
+ 
+ </navigation>
+\ No newline at end of file
+Index: app/src/test/java/com/koleychik/clothesstore/data/Data.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/java/com/koleychik/clothesstore/data/Data.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/test/java/com/koleychik/clothesstore/data/Data.kt	(date 1607257034340)
+@@ -7,10 +7,8 @@
+ import com.koleychik.clothesstore.models.ProductModel
+ import com.koleychik.clothesstore.models.networkModels.Photo
+ import com.koleychik.clothesstore.models.networkModels.Urls
++import com.koleychik.clothesstore.utils.*
+ import com.koleychik.clothesstore.utils.constants.Constants
+-import com.koleychik.clothesstore.utils.generateHistoryModel
+-import com.koleychik.clothesstore.utils.generatePrice
+-import com.koleychik.clothesstore.utils.getAll
+ import java.lang.StringBuilder
+ import java.util.*
+ 
+@@ -53,6 +51,7 @@
+     val list = mutableListOf<BasketModel>()
+     for (i in listProducts) list.add(
+         BasketModel(
++            generateId(),
+             i.photo,
+             i.categoryId,
+             i.price,
+@@ -60,6 +59,7 @@
+             i.isInBasket,
+             i.isInFavorites,
+             "L",
++            generateTransitionName(i.photo.urls.regular),
+             i.sale
+         )
+     )
+@@ -73,12 +73,14 @@
+     val listInBoolean = listIsInBasket()
+     for (i in photos.indices) list.add(
+         ProductModel(
++            generateId(),
+             photos[i],
+             i,
+             generatePrice(),
+             saleList[i],
+             listInBoolean[i],
+             false,
++            generateTransitionName(photos[i].urls.regular),
+             saleList[i]
+         )
+     )
+@@ -123,5 +125,4 @@
+     }
+     return list
+ }
+-
+ private fun generateUrls(url: String) = Urls(url, url, url, url, url)
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/ui/adapters/ProductAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/adapters/ProductAdapter.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/adapters/ProductAdapter.kt	(date 1607117859106)
+@@ -5,6 +5,7 @@
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import android.widget.ImageView
+ import androidx.navigation.Navigation
+ import androidx.recyclerview.widget.RecyclerView
+ import androidx.recyclerview.widget.SortedList
+@@ -14,42 +15,50 @@
+ import com.koleychik.clothesstore.R
+ import com.koleychik.clothesstore.databinding.ItemRvProductBinding
+ import com.koleychik.clothesstore.models.ProductModel
++import com.koleychik.clothesstore.models.categories.Category
+ import com.koleychik.clothesstore.utils.ActiveModel
++import com.koleychik.clothesstore.utils.adaptersHelpers.ProductAdapterHelper
+ import com.koleychik.clothesstore.utils.constants.ProductConstants
+ import com.koleychik.clothesstore.utils.getCurrencyString
+ import kotlinx.android.synthetic.main.item_rv_product.view.*
+ import javax.inject.Inject
+ 
+ 
+-class ProductAdapter @Inject constructor(private val activeModel: ActiveModel) : RecyclerView.Adapter<ProductAdapter.MainViewHolder>() {
++class ProductAdapter @Inject constructor(private val onClick: (imageView: ImageView, model: ProductModel) -> Unit) :
++    RecyclerView.Adapter<ProductAdapter.MainViewHolder>() {
+ 
+-    private val sortedList: SortedList<ProductModel>
+-
+-    init {
+-        sortedList = SortedList(
+-            ProductModel::class.java,
+-            object : SortedListAdapterCallback<ProductModel>(this) {
+-                override fun compare(o1: ProductModel, o2: ProductModel): Int = o2.id - o1.id
++    private val sortedList = SortedList(
++        ProductModel::class.java,
++        object : SortedListAdapterCallback<ProductModel>(this) {
++            override fun compare(o1: ProductModel, o2: ProductModel): Int = o2.id - o1.id
+ 
+-                override fun areContentsTheSame(
+-                    oldItem: ProductModel,
+-                    newItem: ProductModel
+-                ): Boolean =
+-                    oldItem.id == newItem.id
++            override fun areContentsTheSame(
++                oldItem: ProductModel,
++                newItem: ProductModel
++            ): Boolean =
++                oldItem.id == newItem.id
+ 
+-                override fun areItemsTheSame(item1: ProductModel, item2: ProductModel): Boolean =
+-                    item1 == item2
+-            })
++            override fun areItemsTheSame(item1: ProductModel, item2: ProductModel): Boolean =
++                item1 == item2
++        })
++
++    private val listCategoryId = mutableListOf<Int>()
++
++    private val helper by lazy {
++        ProductAdapterHelper(sortedList, listCategoryId)
+     }
+ 
+     fun submitList(newList: List<ProductModel>) {
+         sortedList.clear()
+-        sortedList.addAll(newList)
++        for (i in newList) helper.addToList(i)
+     }
+ 
+-    fun addToList(value: ProductModel) {
+-        sortedList.add(value)
++    fun updateList(newList: List<ProductModel>) {
++        for (i in newList) if (!listCategoryId.contains(i.id)) helper.addToList(i)
++        helper.removeUnusedItems(newList)
+     }
++
++    fun isSortedListEmpty() = sortedList.size() <= 0
+ 
+     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+ 
+@@ -73,7 +82,7 @@
+         fun bind(model: ProductModel) {
+             itemView.description.text = model.photo.description
+             itemView.fullPrice.text = getCurrencyString(model.price)
+-            itemView.img.load(model.photo.urls?.regular)
++            itemView.img.load(model.photo.urls.regular)
+             if (model.sale != null) {
+ //              cross out
+                 itemView.fullPrice.paintFlags =
+@@ -88,11 +97,12 @@
+             }
+ 
+             itemView.setOnClickListener {
+-                activeModel.model = model
+-                val bundle = Bundle()
+-                bundle.putBoolean(ProductConstants.comeFromAnother, true)
+-                Navigation.findNavController(it)
+-                    .navigate(R.id.action_navDrawerFragment_to_productFragment, bundle)
++//                activeModel.model = model
++//                val bundle = Bundle()
++//                bundle.putBoolean(ProductConstants.comeFromAnother, true)
++//                Navigation.findNavController(it)
++//                    .navigate(R.id.action_navDrawerFragment_to_productFragment, bundle)
++                onClick(itemView.img, model)
+             }
+         }
+     }
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/navDrawer/AccountFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/navDrawer/AccountFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/navDrawer/AccountFragment.kt	(date 1607103526481)
+@@ -20,7 +20,8 @@
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.AccountViewModel
+ import com.koleychik.clothesstore.utils.constants.Constants
+-import kotlinx.android.synthetic.main.fragment_account.view.*
++import com.koleychik.clothesstore.utils.constants.InfoConstants
++import com.koleychik.clothesstore.utils.navigation.navigation
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.launch
+ import javax.inject.Inject
+@@ -111,7 +112,13 @@
+                 }
+             }
+         }
+-//        TODO -> ON CLICK TO SET PASSWORD -> --------------------
++        binding.setPassword.setOnClickListener {
++            val bundle = Bundle()
++            bundle.putInt(InfoConstants.GET_TEXT_RES, R.string.text_to_set_password)
++            bundle.putInt(InfoConstants.GET_TITLE_RES, R.string.checkEmail)
++            bundle.putInt(InfoConstants.GET_ACTION_ID, -1)
++            navigation(binding.root, R.id.action_accountFragment_to_infoFragment, bundle)
++        }
+     }
+ 
+     private fun createRv() {
+Index: app/src/main/java/com/koleychik/clothesstore/ui/screens/login/signUp/EmailAndNameFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/screens/login/signUp/EmailAndNameFragment.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/screens/login/signUp/EmailAndNameFragment.kt	(date 1607103526235)
+@@ -16,7 +16,7 @@
+ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
+ import com.koleychik.clothesstore.ui.viewModels.SignViewModel
+ import com.koleychik.clothesstore.utils.constants.LogoConstant
+-import com.koleychik.clothesstore.utils.navigation
++import com.koleychik.clothesstore.utils.navigation.navigation
+ import kotlinx.android.synthetic.main.fragment_sign.view.*
+ import javax.inject.Inject
+ 
+Index: app/src/main/java/com/koleychik/clothesstore/ui/viewModels/HomeViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/ui/viewModels/HomeViewModel.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/ui/viewModels/HomeViewModel.kt	(date 1607098419413)
+@@ -20,7 +20,11 @@
+ 
+     val state = MutableLiveData<HomeState>(HomeState.Loading)
+ 
+-    fun getData(listCategory: List<Category>) = viewModelScope.launch(Dispatchers.IO) {
++    fun getData(
++        listCategory: List<Category>,
++        goNextStateSuccessful: (listCategory: List<Category>, map: Map<Int, List<ProductModel>>) -> Unit
++    ) = viewModelScope.launch(Dispatchers.IO)
++    {
+         Log.d(Constants.TAG, "startGetData")
+         val map = mutableMapOf<Int, List<ProductModel>>()
+ 
+@@ -39,8 +43,8 @@
+         }
+ 
+         withContext(Dispatchers.Main) {
+-            Log.d(Constants.TAG, "map.size = ${map.size}")
+             state.value = HomeState.Show(listCategory, map)
++            goNextStateSuccessful(listCategory, map)
+         }
+     }
+ }
+Index: app/src/main/java/com/koleychik/clothesstore/utils/adaptersHelpers/ProductAdapterHelper.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/adaptersHelpers/ProductAdapterHelper.kt	(date 1607099930610)
++++ app/src/main/java/com/koleychik/clothesstore/utils/adaptersHelpers/ProductAdapterHelper.kt	(date 1607099930610)
+@@ -0,0 +1,42 @@
++package com.koleychik.clothesstore.utils.adaptersHelpers
++
++import androidx.recyclerview.widget.SortedList
++import com.koleychik.clothesstore.models.ProductModel
++import com.koleychik.clothesstore.models.categories.Category
++import javax.inject.Inject
++
++class ProductAdapterHelper @Inject constructor(
++    private val sortedList: SortedList<ProductModel>,
++    private val listCategoryId: MutableList<Int>
++) {
++
++    private fun createSetFromListCategory(newList: List<ProductModel>): Set<Int> {
++        val setRes = mutableSetOf<Int>()
++        for (i in newList) setRes.add(i.id)
++        return setRes
++    }
++
++    fun removeUnusedItems(newList: List<ProductModel>) {
++        val setIdNewList = createSetFromListCategory(newList)
++        val listToDelete = mutableListOf<Int>()
++        for (i in listCategoryId) if (!setIdNewList.contains(i)) listToDelete.add(i)
++        for (i in listToDelete) remove(i)
++    }
++
++    private fun remove(modelId: Int) {
++        var indexSelectView = -1
++        for (i in (0 until sortedList.size())) if (sortedList[i].id == modelId) {
++            indexSelectView = i
++            break
++        }
++        if (indexSelectView != -1) sortedList.removeItemAt(indexSelectView)
++        listCategoryId.remove(modelId)
++    }
++
++    fun addToList(value: ProductModel) {
++        sortedList.add(value)
++        listCategoryId.add(value.id)
++    }
++
++
++}
+\ No newline at end of file
+Index: app/src/main/java/com/koleychik/clothesstore/utils/NavigationLamba.kt
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/NavigationLamba.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/utils/navigation/NavigationLamba.kt	(date 1607103526265)
+@@ -1,4 +1,4 @@
+-package com.koleychik.clothesstore.utils
++package com.koleychik.clothesstore.utils.navigation
+ 
+ import android.os.Bundle
+ import android.view.View
+Index: app/src/main/res/layout/item_rv_product.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/item_rv_product.xml	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/res/layout/item_rv_product.xml	(date 1607257375330)
+@@ -20,6 +20,8 @@
+             android:id="@+id/img"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
++            android:scaleType="centerCrop"
++            android:transitionName="transitionElement"
+             android:src="@drawable/test_img" />
+     </androidx.cardview.widget.CardView>
+ 
+Index: app/src/main/java/com/koleychik/clothesstore/utils/Generate.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/koleychik/clothesstore/utils/Generate.kt	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/java/com/koleychik/clothesstore/utils/Generate.kt	(date 1607257034357)
+@@ -13,6 +13,7 @@
+     size: String,
+     isInBasket: Boolean = productModel.isInBasket
+ ) = BasketModel(
++    generateId(),
+     productModel.photo,
+     productModel.categoryId,
+     productModel.price,
+@@ -20,6 +21,7 @@
+     isInBasket,
+     productModel.isInFavorites,
+     size,
++    generateTransitionName(productModel.photo.urls.regular),
+     productModel.sale
+ )
+ 
+@@ -32,12 +34,14 @@
+     minPrice: Int = Constants.priceMin,
+     maxPrice: Int = Constants.priceMax
+ ) = ProductModel(
++    generateId(),
+     photo = photo,
+     categoryId = categoryId,
+     price = generatePrice(minPrice, maxPrice),
+     salePrice = 0,
+     isInBasket = false,
+-    isInFavorites = false
++    isInFavorites = false,
++    generateTransitionName(photo.urls.regular)
+ )
+ 
+ fun generateProductModel(
+@@ -67,4 +71,15 @@
+ fun minusPercent(valueFull: Int, percent: Int): Int {
+     val valueDecimal = BigDecimal(valueFull + percent)
+     return valueDecimal.divide(BigDecimal(100), 0).toInt()
++}
++
++fun generateTransitionName(url: String) = url + "_" + Random().nextInt()
++
++fun generateId(): Int {
++    var res = 0
++    val random = Random()
++    for (i in (0..5)) {
++        res += random.nextInt(32767)
++    }
++    return res
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_product.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_product.xml	(revision 338a9634799e420e3f228f8f63cce0cfa7715be8)
++++ app/src/main/res/layout/fragment_product.xml	(date 1607258127158)
+@@ -20,6 +20,7 @@
+         android:layout_height="0dp"
+         android:layout_marginBottom="@dimen/extraSmallMargin"
+         app:cardCornerRadius="@dimen/basicRadius"
++        android:minWidth="300dp"
+         android:layout_marginTop="@dimen/extraSmallMargin"
+         app:layout_constraintBottom_toTopOf="@+id/title"
+         app:layout_constraintEnd_toEndOf="parent"
+@@ -48,9 +49,9 @@
+     <TextView
+         android:id="@+id/textCategory"
+         style="@style/text"
++        android:layout_marginTop="@dimen/superSmallPadding"
+         android:fontFamily="@font/roboto_regular"
+         android:text="@string/footwear"
+-        android:layout_marginTop="@dimen/superSmallPadding"
+         android:textSize="@dimen/basicTextSize"
+         app:layout_constraintStart_toStartOf="@+id/title"
+         app:layout_constraintTop_toBottomOf="@+id/title" />
+@@ -81,14 +82,14 @@
+     <TextView
+         android:id="@+id/description"
+         style="@style/text"
+-        android:textSize="@dimen/extraSmallTextSize"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="@dimen/extraSmallMargin"
+         android:maxLines="3"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+         android:text="hduhkhc sdhuhdkhkfudjjscjc nijhjhiuhihiuhihdsickisdk sdhkhhchhfdi idh djcksdckdsjckhdsuchdskuch kudshckhdsc sudhckudsckdskhkfdh kuhdfuh uhfdkkdufh hfdkhkfdk kshdkuchk skhkuch"
++        android:textSize="@dimen/extraSmallTextSize"
++        app:layout_constraintEnd_toEndOf="@+id/cardView3"
++        app:layout_constraintStart_toStartOf="@+id/cardView3"
+         app:layout_constraintTop_toBottomOf="@+id/fullPrice" />
+ 
+     <TextView

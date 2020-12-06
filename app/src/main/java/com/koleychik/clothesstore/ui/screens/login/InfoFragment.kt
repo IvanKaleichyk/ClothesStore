@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.koleychik.clothesstore.databinding.FragmentInfoBinding
 import com.koleychik.clothesstore.utils.constants.InfoConstants
-import com.koleychik.clothesstore.utils.navigation
+import com.koleychik.clothesstore.utils.navigation.navigation
 
 class InfoFragment: Fragment() {
 
@@ -27,7 +28,8 @@ class InfoFragment: Fragment() {
         tryGetArgs()
         setUI()
         binding.btn.setOnClickListener {
-            navigation(binding.root, actionId)
+            if (actionId == -1) Navigation.findNavController(binding.root).popBackStack()
+            else navigation(binding.root, actionId)
         }
 
         binding.textInfo.setText(textId)

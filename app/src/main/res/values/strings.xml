@@ -67,6 +67,7 @@
     <string name="forgotPassword">Forgot password</string>
 
     <string name="verifyEmail">You must confirm your email!!!</string>
+    <string name="text_to_set_password">Check your email to set password. If you change your mind to change your password just ignore this message</string>
     <string name="checkEmail">Check your email</string>
     <string name="sign_up">Sign Up</string>
     <string name="set_password">Set Password</string>

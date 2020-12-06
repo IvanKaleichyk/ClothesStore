@@ -24,6 +24,7 @@ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.SearchViewModel
 import com.koleychik.clothesstore.utils.*
 import com.koleychik.clothesstore.utils.constants.Constants
+import com.koleychik.clothesstore.utils.navigation.startSearching
 import java.util.*
 import javax.inject.Inject
 

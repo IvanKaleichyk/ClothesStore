@@ -8,14 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.koleychik.clothesstore.App
+import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.databinding.FragmentHomeBinding
 import com.koleychik.clothesstore.ui.adapters.CategoryAdapter
 import com.koleychik.clothesstore.ui.states.HomeState
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.HomeViewModel
 import com.koleychik.clothesstore.utils.constants.Constants
+import com.koleychik.clothesstore.utils.constants.ProductConstants
 import com.koleychik.clothesstore.utils.listCategory
+import com.koleychik.clothesstore.utils.navigation.SharedElementNavigation
+import com.koleychik.clothesstore.utils.navigation.SharedElementNavigationMain
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -25,8 +30,29 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
 
-    @Inject
-    lateinit var adapter: CategoryAdapter
+    private val sharedElementNavigation by lazy {
+        SharedElementNavigation(this)
+    }
+
+    private val sharedElementNavigationMain by lazy {
+        SharedElementNavigationMain(this)
+    }
+
+    val adapter: CategoryAdapter by lazy {
+        CategoryAdapter { img, model ->
+            sharedElementNavigationMain.goToProductFragmentFromNavDrawer(img, model)
+//            Log.d(Constants.TAG, "click to adapter")
+//            sharedElementNavigation.goTo(Navigation.findNavController(binding.root), img, model)
+//            val bundle = Bundle()
+//            bundle.putBoolean(ProductConstants.comeFromBasket, false)
+//            bundle.putParcelable(ProductConstants.model, model)
+//            SharedElementNavigationMain(this).goToProductFragment(
+//                img,
+//                R.id.action_navDrawerFragment_to_productFragment,
+//                bundle
+//            )
+        }
+    }
 
     @Inject
     lateinit var viewModelFactory: MainViewModelFactory
@@ -38,6 +64,8 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater)
         App.component.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+
+        sharedElementNavigation.prepareTransitions()
 
         subscribe()
         createRv()
@@ -53,11 +81,16 @@ class HomeFragment : Fragment() {
     private fun createRv() {
         binding.rv.adapter = adapter
     }
+
     private fun render(state: HomeState) {
         loading.isVisible = state is HomeState.Loading
         when (state) {
-            is HomeState.Loading -> viewModel.getData(listCategory)
-            is HomeState.Refreshing -> viewModel.getData(listCategory)
+            is HomeState.Loading -> viewModel.getData(listCategory) { newList, map ->
+                viewModel.state.value = HomeState.Show(newList, map)
+            }
+            is HomeState.Refreshing -> viewModel.getData(listCategory) { newList, map ->
+                adapter.updateList(newList, map)
+            }
             is HomeState.Error -> {
                 binding.textError.setText(state.textRes)
                 binding.swipeToRefresh.isRefreshing = false
@@ -78,5 +111,5 @@ class HomeFragment : Fragment() {
             viewModel.state.value = HomeState.Refreshing
         }
     }
-
 }
+

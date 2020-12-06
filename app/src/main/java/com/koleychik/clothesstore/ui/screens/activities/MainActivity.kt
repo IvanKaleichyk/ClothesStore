@@ -1,14 +1,11 @@
 package com.koleychik.clothesstore.ui.screens.activities
 
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.databinding.ActivityMainBinding
-import com.koleychik.clothesstore.databinding.AppBarMainBinding
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.MainViewModel
 import javax.inject.Inject

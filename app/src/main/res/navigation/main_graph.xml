@@ -48,7 +48,17 @@
         android:id="@+id/productFragment"
         android:name="com.koleychik.clothesstore.ui.screens.ProductFragment"
         android:label="fragment_product"
-        tools:layout="@layout/fragment_product" />
+        tools:layout="@layout/fragment_product">
+        <argument
+            android:name="transitionName"
+            app:argType="string"/>
+        <argument
+            android:name="isFromBasket"
+            app:argType="boolean"/>
+        <argument
+            android:name="productModel"
+            app:argType="com.koleychik.clothesstore.models.ProductModel" />
+    </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="com.koleychik.clothesstore.ui.screens.login.WelcomeFragment"
@@ -119,6 +129,10 @@
         android:id="@+id/accountFragment"
         android:name="com.koleychik.clothesstore.ui.screens.navDrawer.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
 
 </navigation>

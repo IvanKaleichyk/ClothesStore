@@ -20,7 +20,11 @@ class HomeViewModel @Inject constructor(private val repository: NetworkRepositor
 
     val state = MutableLiveData<HomeState>(HomeState.Loading)
 
-    fun getData(listCategory: List<Category>) = viewModelScope.launch(Dispatchers.IO) {
+    fun getData(
+        listCategory: List<Category>,
+        goNextStateSuccessful: (listCategory: List<Category>, map: Map<Int, List<ProductModel>>) -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO)
+    {
         Log.d(Constants.TAG, "startGetData")
         val map = mutableMapOf<Int, List<ProductModel>>()
 
@@ -39,8 +43,8 @@ class HomeViewModel @Inject constructor(private val repository: NetworkRepositor
         }
 
         withContext(Dispatchers.Main) {
-            Log.d(Constants.TAG, "map.size = ${map.size}")
             state.value = HomeState.Show(listCategory, map)
+            goNextStateSuccessful(listCategory, map)
         }
     }
 }

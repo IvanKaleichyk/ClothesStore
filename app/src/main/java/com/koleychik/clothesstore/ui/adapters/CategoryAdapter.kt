@@ -3,47 +3,56 @@ package com.koleychik.clothesstore.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.koleychik.clothesstore.R
-import com.koleychik.clothesstore.databinding.ItemRvCategoryBinding
 import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.models.categories.Category
 import com.koleychik.clothesstore.utils.ActiveModel
+import com.koleychik.clothesstore.utils.adaptersHelpers.CategoryAdapterHelper
 import kotlinx.android.synthetic.main.item_rv_category.view.*
 import javax.inject.Inject
 
-class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) :
+class CategoryAdapter @Inject constructor(private val onClick: (imageView: ImageView, model : ProductModel) -> Unit) :
     RecyclerView.Adapter<CategoryAdapter.MainViewHolder>() {
 
-    private val sortedList: SortedList<Category>
+    private val sortedList = SortedList(Category::class.java,
+        object : SortedListAdapterCallback<Category>(this) {
+            override fun compare(o1: Category, o2: Category): Int = 1
+
+            override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean =
+                oldItem.getId() == newItem.getId()
+
+            override fun areItemsTheSame(item1: Category, item2: Category): Boolean =
+                item1 == item2
+        })
+
+    private val listCategoryId = mutableListOf<Int>()
+
+    private val helper: CategoryAdapterHelper by lazy {
+        CategoryAdapterHelper(sortedList, listCategoryId = listCategoryId)
+    }
 
     var mainMap = mapOf<Int, List<ProductModel>>()
 
     init {
-        sortedList = SortedList(
-            Category::class.java,
-            object : SortedListAdapterCallback<Category>(this) {
-                override fun compare(o1: Category, o2: Category): Int = 1
-
-                override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean =
-                    oldItem.getId() == newItem.getId()
-
-                override fun areItemsTheSame(item1: Category, item2: Category): Boolean =
-                    item1 == item2
-            })
+        sortedList
     }
 
     fun submitList(newList: List<Category>, map: Map<Int, List<ProductModel>>) {
         mainMap = map
         sortedList.clear()
-        sortedList.addAll(newList)
+        for (i in newList) helper.addToList(i)
     }
 
-    fun addToList(value: Category) {
-        sortedList.add(value)
+    fun updateList(newList: List<Category>, map: Map<Int, List<ProductModel>>) {
+        mainMap = map
+        for (i in newList) if (!listCategoryId.contains(i.getId())) helper.addToList(i)
+        helper.removeUnusedItems(newList)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -61,7 +70,7 @@ class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) 
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val adapter = ProductAdapter(activeModel)
+        val adapter = ProductAdapter(onClick)
 
         fun bind(model: Category) {
             itemView.title.setText(model.getResourceName())
@@ -74,7 +83,8 @@ class CategoryAdapter @Inject constructor(private val activeModel: ActiveModel) 
             val list = mainMap[model.getId()]
             if (list == null) itemView.visibility = View.GONE
             else {
-                adapter.submitList(list)
+                if (adapter.isSortedListEmpty()) adapter.submitList(list)
+                else (adapter.updateList(list))
                 itemView.visibility = View.VISIBLE
             }
         }
