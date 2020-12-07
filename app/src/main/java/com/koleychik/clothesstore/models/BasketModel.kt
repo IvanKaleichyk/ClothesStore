@@ -5,12 +5,24 @@ import com.koleychik.clothesstore.models.networkModels.Photo
 
 @Entity
 class BasketModel(
+    id: Int,
     photo: Photo,
     categoryId: Int,
     price: Int,
     salePrice: Int,
     isInBasket: Boolean,
     isInFavorites: Boolean,
-    val size : String,
+    transitionName: String,
+    val size: String,
     sale: Int? = null,
-) : ProductModel(photo, categoryId, price, salePrice, isInBasket, isInFavorites, sale)
+) : ProductModel(
+    id,
+    photo,
+    categoryId,
+    price,
+    salePrice,
+    isInBasket,
+    isInFavorites,
+    transitionName,
+    sale
+)

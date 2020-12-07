@@ -21,7 +21,7 @@ class SearchViewModel @Inject constructor(private val repository: HistoryReposit
         val list = repository.getAll()
         withContext(Dispatchers.Main){
             if (list.isNotEmpty()) state.value = SearchState.ShowResult(list)
-            else if (stateIfListEmpty != null) state.value = stateIfListEmpty
+            else if (stateIfListEmpty != null) state.value = stateIfListEmpty!!
         }
     }
 

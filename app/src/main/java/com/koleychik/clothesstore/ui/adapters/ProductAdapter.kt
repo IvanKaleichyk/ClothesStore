@@ -1,21 +1,17 @@
 package com.koleychik.clothesstore.ui.adapters
 
 import android.graphics.Paint
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import coil.load
-import com.koleychik.clothesstore.App
 import com.koleychik.clothesstore.R
-import com.koleychik.clothesstore.databinding.ItemRvProductBinding
 import com.koleychik.clothesstore.models.ProductModel
-import com.koleychik.clothesstore.utils.ActiveModel
-import com.koleychik.clothesstore.utils.constants.ProductConstants
+import com.koleychik.clothesstore.utils.adaptersHelpers.ProductAdapterHelper
 import com.koleychik.clothesstore.utils.getCurrencyString
 import kotlinx.android.synthetic.main.item_rv_product.view.*
 import javax.inject.Inject

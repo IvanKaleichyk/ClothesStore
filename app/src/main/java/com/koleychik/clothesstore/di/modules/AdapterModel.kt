@@ -15,14 +15,14 @@ class AdapterModel {
     @Provides
     fun provideHistoryAdapter() = HistoryAdapter()
 
-    @Provides
-    fun provideProductAdapter(activeModel: ActiveModel) = ProductAdapter(activeModel)
-
-    @Provides
-    fun provideCategoryAdapter(activeModel: ActiveModel) = CategoryAdapter(activeModel)
-
-    @Provides
-    fun provideAdapterProducts(activeModel: ActiveModel) = ProductPagingAdapter(activeModel)
+//    @Provides
+//    fun provideProductAdapter() = ProductAdapter()
+//
+//    @Provides
+//    fun provideCategoryAdapter() = CategoryAdapter()
+//
+//    @Provides
+//    fun provideAdapterProducts() = ProductPagingAdapter()
 
     @Provides
     fun provideImagesAdapter() = ImagesAdapter()
