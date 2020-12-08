@@ -22,6 +22,7 @@ import com.koleychik.clothesstore.ui.viewModels.AccountViewModel
 import com.koleychik.clothesstore.utils.constants.Constants
 import com.koleychik.clothesstore.utils.constants.InfoConstants
 import com.koleychik.clothesstore.utils.navigation.navigation
+import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
