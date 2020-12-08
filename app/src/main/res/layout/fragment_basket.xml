@@ -31,7 +31,6 @@
         style="@style/basicButton"
         android:layout_marginBottom="@dimen/basicMargin"
         android:text="@string/buyAll"
-        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

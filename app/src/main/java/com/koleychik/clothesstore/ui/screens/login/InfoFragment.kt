@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.koleychik.clothesstore.databinding.FragmentInfoBinding
 import com.koleychik.clothesstore.utils.constants.InfoConstants
-import com.koleychik.clothesstore.utils.navigation.navigation
+import com.koleychik.clothesstore.utils.navigation
 
 class InfoFragment: Fragment() {
 

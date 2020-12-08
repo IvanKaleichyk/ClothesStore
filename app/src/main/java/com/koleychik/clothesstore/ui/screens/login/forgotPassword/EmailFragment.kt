@@ -14,7 +14,7 @@ import com.koleychik.clothesstore.databinding.FragmentElementLoginBinding
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.ElementLoginViewModel
 import com.koleychik.clothesstore.utils.constants.InfoConstants
-import com.koleychik.clothesstore.utils.navigation.navigation
+import com.koleychik.clothesstore.utils.navigation
 import kotlinx.android.synthetic.main.fragment_element_login.view.*
 import javax.inject.Inject
 

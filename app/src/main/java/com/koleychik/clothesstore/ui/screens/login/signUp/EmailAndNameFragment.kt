@@ -16,7 +16,7 @@ import com.koleychik.clothesstore.ui.states.SignState
 import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.SignViewModel
 import com.koleychik.clothesstore.utils.constants.LogoConstant
-import com.koleychik.clothesstore.utils.navigation.navigation
+import com.koleychik.clothesstore.utils.navigation
 import kotlinx.android.synthetic.main.fragment_sign.view.*
 import javax.inject.Inject
 

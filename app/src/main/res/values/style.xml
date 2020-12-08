@@ -30,7 +30,6 @@
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">@dimen/basicTextSize</item>
         <item name="android:background">@drawable/logo_btn_bg</item>
-        <item name="backgroundTint">@null</item>
     </style>
 
    <style name="edtLogo">
@@ -86,7 +85,6 @@
         <item name="android:textSize">@dimen/smallTextSize</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:background">@drawable/btn_bg</item>
-        <item name="backgroundTint">@null</item>
     </style>
 
 

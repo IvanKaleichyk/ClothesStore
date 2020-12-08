@@ -1,17 +1,16 @@
-package com.koleychik.clothesstore.ui.screens.search
+package com.koleychik.clothesstore.ui.screens
 
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.koleychik.clothesstore.App
-import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.databinding.FragmentSearchResoultBinding
 import com.koleychik.clothesstore.models.categories.Category
 import com.koleychik.clothesstore.ui.adapters.paging.productPagingAdapter.ProductLoadStateAdapter
@@ -21,7 +20,6 @@ import com.koleychik.clothesstore.ui.viewModelFactory.MainViewModelFactory
 import com.koleychik.clothesstore.ui.viewModels.SearchResultViewModel
 import com.koleychik.clothesstore.utils.constants.Constants
 import com.koleychik.clothesstore.utils.getCategoryById
-import com.koleychik.clothesstore.utils.navigation.SharedElementNavigation
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,19 +37,8 @@ class SearchResultFragment : Fragment() {
     lateinit var viewModelFactory: MainViewModelFactory
 
     @Inject
-    lateinit var sharedElementNavigation: SharedElementNavigation
+    lateinit var adapterProducts: ProductPagingAdapter
 
-    private val adapterProducts by lazy {
-        ProductPagingAdapter(
-            onCLick = { img, model ->
-                sharedElementNavigation.fromSearchResultToProductFragment(img, model)
-            },
-            onSetState = { isUp ->
-                if (isUp) binding.motionLayout.transitionToState(R.id.start)
-                else binding.motionLayout.transitionToState(R.id.end)
-            }
-        )
-    }
 
     private lateinit var binding: FragmentSearchResoultBinding
 
@@ -66,7 +53,6 @@ class SearchResultFragment : Fragment() {
         tryGetArgs()
         subscribe()
         createRv()
-        createFabIcon()
 
         return binding.root
     }
@@ -80,7 +66,6 @@ class SearchResultFragment : Fragment() {
     }
 
     private fun render(state: SearchResultState) {
-
         when (state) {
             is SearchResultState.Loading -> {
                 Log.d(Constants.TAG, "startLoading")
@@ -93,7 +78,6 @@ class SearchResultFragment : Fragment() {
                         priceMax = maxPrice
                     ).collectLatest { adapterProducts.submitData(it) }
                 }
-                viewModel.state.value = SearchResultState.Showing
             }
             is SearchResultState.Nothing -> {
             }
@@ -130,13 +114,6 @@ class SearchResultFragment : Fragment() {
             adapter =
                 adapterProducts.withLoadStateFooter(ProductLoadStateAdapter { adapterProducts.refresh() })
         }
-
-    }
-
-    private fun createFabIcon() {
-        binding.up.setOnClickListener {
-            binding.rv.scrollToPosition(0)
-        }
     }
 
     private fun tryGetArgs() {
@@ -146,7 +123,5 @@ class SearchResultFragment : Fragment() {
             minPrice = getInt(Constants.SEARCH_PRICE_MIN, Constants.priceMin)
             searchWord = getString(Constants.SEARCH_TEXT, "")
         }
-
-        binding.textToolbar.text = searchWord
     }
 }
