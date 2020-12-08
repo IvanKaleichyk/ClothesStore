@@ -1,12 +1,14 @@
 package com.koleychik.clothesstore.utils.navigation
 
+import android.media.Image
 import android.widget.ImageView
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.koleychik.clothesstore.R
 import com.koleychik.clothesstore.models.BasketModel
 import com.koleychik.clothesstore.models.ProductModel
 import com.koleychik.clothesstore.ui.screens.NavDrawerFragmentDirections
+import com.koleychik.clothesstore.ui.screens.search.SearchResultFragmentDirections
 
 class SharedElementNavigation {
 
@@ -16,11 +18,27 @@ class SharedElementNavigation {
             model is BasketModel,
             model
         )
-        val extras = FragmentNavigator.Extras.Builder().addSharedElements(
-            mapOf(
-                img to img.transitionName
-            )
-        ).build()
-        Navigation.findNavController(img).navigate(destination, extras)
+        val navController = Navigation.findNavController(img)
+        if (navController.currentDestination?.id == R.id.navDrawerFragment)
+            navController.navigate(destination, createExtras(img))
     }
+
+    fun fromSearchResultToProductFragment(img: ImageView, model: ProductModel) {
+        val destination =
+            SearchResultFragmentDirections.actionSearchResultFragmentToProductFragment(
+                model.transitionName,
+                model is BasketModel,
+                model
+            )
+        val navController = Navigation.findNavController(img)
+        if (navController.currentDestination?.id == R.id.searchResultFragment)
+            navController.navigate(destination, createExtras(img))
+    }
+
+    private fun createExtras(img: ImageView) = FragmentNavigator.Extras.Builder().addSharedElements(
+        mapOf(
+            img to img.transitionName
+        )
+    ).build()
+
 }

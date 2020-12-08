@@ -6,9 +6,6 @@
         <shape>
             <corners android:radius="@dimen/smallRadius" />
             <solid android:color="@color/colorPrimaryDark" />
-            <stroke
-                android:width="@dimen/stroke"
-                android:color="@color/colorBlack" />
         </shape>
     </item>
     <item
@@ -16,9 +13,6 @@
         <shape>
             <corners android:radius="@dimen/smallRadius" />
             <solid android:color="@color/colorPrimary" />
-            <stroke
-                android:width="@dimen/stroke"
-                android:color="@color/colorBlack" />
         </shape>
     </item>
 

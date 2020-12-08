@@ -1,4 +1,4 @@
-package com.koleychik.clothesstore.utils
+package com.koleychik.clothesstore.utils.navigation
 
 import android.os.Bundle
 import android.view.View

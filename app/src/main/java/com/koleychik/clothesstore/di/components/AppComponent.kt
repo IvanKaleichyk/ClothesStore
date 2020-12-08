@@ -4,8 +4,8 @@ import com.koleychik.clothesstore.ui.screens.activities.MainActivity
 import com.koleychik.clothesstore.di.modules.*
 import com.koleychik.clothesstore.ui.screens.NavDrawerFragment
 import com.koleychik.clothesstore.ui.screens.ProductFragment
-import com.koleychik.clothesstore.ui.screens.SearchFragment
-import com.koleychik.clothesstore.ui.screens.SearchResultFragment
+import com.koleychik.clothesstore.ui.screens.search.SearchFragment
+import com.koleychik.clothesstore.ui.screens.search.SearchResultFragment
 import com.koleychik.clothesstore.ui.screens.login.SignInFragment
 import com.koleychik.clothesstore.ui.screens.login.forgotPassword.EmailFragment
 import com.koleychik.clothesstore.ui.screens.login.signUp.EmailAndNameFragment

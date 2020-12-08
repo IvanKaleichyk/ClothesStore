@@ -8,5 +8,5 @@ sealed class SearchResultState {
     class Loading(val searchWord: String, val page : Int, val per_page: Int = Constants.per_page) : SearchResultState()
     class Error(val errorText: String) : SearchResultState()
     object Nothing : SearchResultState()
-    class Showing(val list: List<ProductModel>) : SearchResultState()
+    object Showing : SearchResultState()
 }
